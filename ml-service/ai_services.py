@@ -363,7 +363,7 @@ Always be helpful, accurate, and professional."""
             }
             
             payload = {
-                "model": "openai/gpt-3.5-turbo",  # Can switch to gpt-4, claude, etc.
+                "model": "google/gemini-2.5-flash",  # Using Gemini via OpenRouter as fallback
                 "messages": messages,
                 "temperature": 0.7,
                 "max_tokens": 1000

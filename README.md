@@ -1,6 +1,6 @@
 # Legal AI App - Complete Backend Implementation
 
-A comprehensive legal AI application built with Next.js 14, TypeScript, Prisma ORM, and OpenAI integration for intelligent legal document processing and analysis.
+A comprehensive legal AI application built with Next.js 14, TypeScript, Prisma ORM, and Google Gemini integration for intelligent legal document processing and analysis.
 
 ## 🚀 Features
 
@@ -26,7 +26,7 @@ A comprehensive legal AI application built with Next.js 14, TypeScript, Prisma O
 - **Next.js 14** with App Router
 - **TypeScript** for type safety
 - **Prisma ORM** with SQLite database
-- **OpenAI GPT-4** for AI features
+- **Google Gemini** for AI features
 - **JWT Authentication** with secure cookies
 - **Zod** for data validation
 
@@ -207,7 +207,7 @@ The application uses JWT-based authentication with secure HTTP-only cookies.
 
 ## 🤖 AI Integration
 
-### OpenAI GPT-4 Features
+### Gemini AI Features
 - **FIR Analysis**: Intelligent analysis of incident descriptions
 - **Legal Section Matching**: AI-powered section recommendations
 - **Case Law Suggestions**: Relevant precedent identification
@@ -215,7 +215,7 @@ The application uses JWT-based authentication with secure HTTP-only cookies.
 - **Multi-language Support**: Translation for regional languages
 
 ### AI Configuration
-The AI integration is configured in `lib/ai.ts` with:
+The AI integration is configured in `lib/gemini-api.ts` with:
 - Custom prompts for legal analysis
 - Confidence scoring for recommendations
 - Fallback handling for API failures
@@ -439,7 +439,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## 🙏 Acknowledgments
 
-- OpenAI for GPT-4 API
+- Google for Gemini API
 - Prisma team for excellent ORM
 - Next.js team for the framework
 - Radix UI for accessible components
