@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NyayaMitra - AI-Powered Legal Document Classifier</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚖️</text></svg>">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+    
+    <!-- Modern Design System CSS -->
+    <link href="{{ url_for('static', filename='css/modern-design.css') }}" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --success-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --accent-color: #667eea;
+            --text-primary: #2d3748;
+            --text-secondary: #718096;
+            --shadow-light: 0 4px 6px rgba(0, 0, 0, 0.07);
+            --shadow-medium: 0 8px 25px rgba(0, 0, 0, 0.15);
+            --shadow-heavy: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .hero-section {
+            background: var(--primary-gradient);
+            color: white;
+            padding: 80px 0;
+            margin-bottom: 60px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/><circle cx="50" cy="50" r="1" fill="white" opacity="0.05"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grain)"/></svg>');
+            opacity: 0.1;
+        }
+
+        .card {
+            border: none;
+            border-radius: 16px;
+            box-shadow: var(--shadow-light);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            background: white;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-medium);
+        }
+        .prediction-result {
+            background: linear-gradient(135deg, #f8f9ff 0%, #ffffff 100%);
+            border-radius: 16px;
+            padding: 32px;
+            margin-top: 24px;
+            border: 1px solid rgba(102, 126, 234, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .prediction-result::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--primary-gradient);
+        }
+
+        .confidence-bar {
+            height: 12px;
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 6px;
+            overflow: hidden;
+            margin: 12px 0;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .confidence-fill {
+            height: 100%;
+            background: var(--success-gradient);
+            border-radius: 6px;
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .confidence-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        .category-badge {
+            font-size: 1.1em;
+            padding: 10px 20px;
+        }
+        .upload-area {
+            border: 2px dashed #6c757d;
+            border-radius: 10px;
+            padding: 40px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .upload-area:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+        .upload-area.dragover {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+        .stats-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .loading {
+            display: none;
+        }
+        .result-section {
+            display: none;
+        }
+        .text-input {
+            min-height: 150px;
+            resize: vertical;
+        }
+        .accuracy-metric {
+            background: #28a745;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .category-stats {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        /* Additional animations and interactivity */
+        .demo-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .demo-card:hover .demo-icon {
+            transform: scale(1.1);
+        }
+
+        .demo-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .slide-up {
+            animation: slideUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .bounce-in {
+            animation: bounceIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0.3); opacity: 0; }
+            50% { transform: scale(1.05); }
+            70% { transform: scale(0.9); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Voice Input Button */
+        .btn-voice-input {
+            position: absolute;
+            right: 10px;
+            bottom: 10px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #dc2626, #ef4444);
+            color: white;
+            border: none;
+            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.4);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+
+        .btn-voice-input:hover {
+            background: linear-gradient(135deg, #b91c1c, #dc2626);
+            transform: scale(1.1);
+            box-shadow: 0 6px 16px rgba(220, 38, 38, 0.6);
+        }
+
+        .btn-voice-input:active {
+            transform: scale(0.95);
+        }
+
+        .btn-voice-input.listening {
+            background: linear-gradient(135deg, #059669, #10b981);
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                box-shadow: 0 4px 12px rgba(5, 150, 105, 0.4);
+                transform: scale(1);
+            }
+            50% {
+                box-shadow: 0 4px 24px rgba(5, 150, 105, 0.8);
+                transform: scale(1.05);
+            }
+        }
+
+        .pulse-animation {
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        #incidentText {
+            padding-right: 70px; /* Make room for the voice button */
+        }
+
+        /* Print-friendly FIR Format Styles */
+        @media print {
+            /* Hide everything except the FIR content */
+            body * {
+                visibility: hidden;
+            }
+            
+            #printableFIR, #printableFIR * {
+                visibility: visible;
+            }
+            
+            #printableFIR {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+            }
+            
+            /* Remove colors and backgrounds for printing */
+            .card, .alert, .badge {
+                border: 1px solid #000 !important;
+                background: white !important;
+                color: black !important;
+            }
+            
+            /* Ensure proper page breaks */
+            .page-break {
+                page-break-after: always;
+            }
+            
+            /* Hide buttons and interactive elements */
+            button, .btn, .no-print {
+                display: none !important;
+            }
+            
+            /* Better spacing for print */
+            .fir-section {
+                margin-bottom: 20px;
+            }
+            
+            /* Font size adjustments */
+            body {
+                font-size: 12pt;
+            }
+            
+            h1 { font-size: 18pt; }
+            h2 { font-size: 16pt; }
+            h3 { font-size: 14pt; }
+        }
+
+        .fir-official-header {
+            text-align: center;
+            border: 2px solid #000;
+            padding: 20px;
+            margin-bottom: 20px;
+            background: white;
+        }
+
+        .fir-official-header h1 {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 0;
+            text-transform: uppercase;
+        }
+
+        .fir-official-header h2 {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+
+        .fir-field {
+            margin: 15px 0;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .fir-field-label {
+            font-weight: bold;
+            display: inline-block;
+            min-width: 200px;
+        }
+
+        .fir-field-value {
+            display: inline-block;
+            border-bottom: 1px dotted #000;
+            min-width: 300px;
+            padding: 0 10px;
+        }
+
+        .fir-signature-section {
+            margin-top: 50px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .fir-signature-box {
+            width: 45%;
+            text-align: center;
+            border-top: 1px solid #000;
+            padding-top: 10px;
+            margin-top: 80px;
+        }
+
+        .fir-content-section {
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin: 20px 0;
+            background: #f9f9f9;
+        }
+
+        .print-preview-modal {
+            max-width: 900px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Skip to content (Accessibility) -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
+    <!-- Page Transition Overlay -->
+    <div class="page-transition">
+        <div class="transition-loader"></div>
+    </div>
+    
+    <!-- Hero Section -->
+    <div class="hero-section hero-section-modern" id="main-content">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-7">
+                    <div class="hero-content">
+                        <h1 class="hero-title text-white">
+                            ⚖️ NyayaMitra
+                        </h1>
+                        <p class="hero-subtitle text-white">
+                            AI-Powered Legal Intelligence for the Modern Era
+                        </p>
+                        <p class="text-white mb-4 opacity-90">
+                            Harness the power of advanced machine learning to classify and analyze 
+                            25 years of Supreme Court judgments instantly. Built with Legal-BERT 
+                            for unparalleled accuracy.
+                        </p>
+                        <div class="d-flex gap-3 flex-wrap">
+                            <button class="btn btn-glass btn-lg" onclick="document.querySelector('#demo-tab').click()">
+                                <i class="fas fa-rocket me-2"></i>Get Started
+                            </button>
+                            <button id="demoModeBtn" class="btn btn-outline-light btn-lg">
+                                <i class="fas fa-play-circle me-2"></i>Auto Demo
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    <div class="hero-visual">
+                        <!-- Animated Stats Glass Card -->
+                        <div class="glass-card p-5 text-white bounce-in">
+                            <div class="row text-center g-4">
+                                <div class="col-4">
+                                    <div class="stat-number display-4 fw-bold" data-count="9924">0</div>
+                                    <div class="stat-label small opacity-75">Cases</div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="stat-number display-4 fw-bold" data-count="9">0</div>
+                                    <div class="stat-label small opacity-75">Categories</div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="stat-number display-4 fw-bold" data-count="73">0</div>
+                                    <div class="stat-label small opacity-75">% Accuracy</div>
+                                </div>
+                            </div>
+                            <hr class="my-4 opacity-50">
+                            <div class="text-center">
+                                <p class="mb-2 opacity-90">
+                                    <i class="fas fa-trophy me-2"></i>25 Years of Legal Data
+                                </p>
+                                <p class="mb-0 opacity-90">
+                                    <i class="fas fa-brain me-2"></i>110M Parameters
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mb-5">
+        <!-- Navigation Tabs -->
+        <ul class="nav nav-pills nav-justified mb-4" id="mainTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="demo-tab" data-bs-toggle="pill" data-bs-target="#demo-section" type="button" role="tab">
+                    <i class="fas fa-magic me-2"></i>Interactive Demo
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="text-tab" data-bs-toggle="pill" data-bs-target="#text-section" type="button" role="tab">
+                    <i class="fas fa-keyboard me-2"></i>Text Input
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="file-tab" data-bs-toggle="pill" data-bs-target="#file-section" type="button" role="tab">
+                    <i class="fas fa-file-upload me-2"></i>File Upload
+                </button>
+            </li>
+
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="analytics-tab" data-bs-toggle="pill" data-bs-target="#analytics-section" type="button" role="tab">
+                    <i class="fas fa-chart-line me-2"></i>Analytics
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="fir-tab" data-bs-toggle="pill" data-bs-target="#fir-section" type="button" role="tab">
+                    <i class="fas fa-shield-alt me-2"></i>FIR Assistant
+                </button>
+            </li>
+        </ul>
+
+        <div class="tab-content" id="mainTabContent">
+            <!-- Interactive Demo Section -->
+            <div class="tab-pane fade show active" id="demo-section" role="tabpanel">
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header bg-primary text-white">
+                                <h5 class="mb-0"><i class="fas fa-magic me-2"></i>Interactive Legal Case Scenarios</h5>
+                            </div>
+                            <div class="card-body">
+                                <p class="text-muted mb-4">Explore different legal case types with pre-written examples. Click on any scenario to see how NyayaMitra classifies it!</p>
+
+                                <div class="row g-3">
+                                    <div class="col-md-4">
+                                        <div class="card demo-card-modern h-100" data-category="Criminal Appeal" style="cursor: pointer;">
+                                            <div class="card-body text-center">
+                                                <div class="demo-icon mb-3">
+                                                    <i class="fas fa-gavel fa-3x text-danger"></i>
+                                                </div>
+                                                <h6 class="card-title">Criminal Appeal</h6>
+                                                <p class="card-text small text-muted">Supreme Court criminal case proceedings and judgments</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="card demo-card-modern h-100" data-category="Property Dispute" style="cursor: pointer;">
+                                            <div class="card-body text-center">
+                                                <div class="demo-icon mb-3">
+                                                    <i class="fas fa-home fa-3x text-success"></i>
+                                                </div>
+                                                <h6 class="card-title">Property Dispute</h6>
+                                                <p class="card-text small text-muted">Land ownership and transfer disputes</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="card demo-card-modern h-100" data-category="Constitutional Matter" style="cursor: pointer;">
+                                            <div class="card-body text-center">
+                                                <div class="demo-icon mb-3">
+                                                    <i class="fas fa-balance-scale fa-3x text-primary"></i>
+                                                </div>
+                                                <h6 class="card-title">Constitutional Law</h6>
+                                                <p class="card-text small text-muted">Fundamental rights and constitutional challenges</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="card demo-card-modern h-100" data-category="Contract Law" style="cursor: pointer;">
+                                            <div class="card-body text-center">
+                                                <div class="demo-icon mb-3">
+                                                    <i class="fas fa-file-contract fa-3x text-warning"></i>
+                                                </div>
+                                                <h6 class="card-title">Contract Disputes</h6>
+                                                <p class="card-text small text-muted">Agreement breaches and commercial contracts</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="card demo-card-modern h-100" data-category="Taxation Matter" style="cursor: pointer;">
+                                            <div class="card-body text-center">
+                                                <div class="demo-icon mb-3">
+                                                    <i class="fas fa-calculator fa-3x text-info"></i>
+                                                </div>
+                                                <h6 class="card-title">Taxation Cases</h6>
+                                                <p class="card-text small text-muted">Income tax and GST disputes</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="card demo-card-modern h-100" data-category="Service Matter" style="cursor: pointer;">
+                                            <div class="card-body text-center">
+                                                <div class="demo-icon mb-3">
+                                                    <i class="fas fa-user-tie fa-3x text-secondary"></i>
+                                                </div>
+                                                <h6 class="card-title">Service Matters</h6>
+                                                <p class="card-text small text-muted">Government employee disputes and pensions</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="card demo-card-modern h-100" data-category="Bail Application" style="cursor: pointer;">
+                                            <div class="card-body text-center">
+                                                <div class="demo-icon mb-3">
+                                                    <i class="fas fa-unlock fa-3x text-warning"></i>
+                                                </div>
+                                                <h6 class="card-title">Bail Application</h6>
+                                                <p class="card-text small text-muted">Anticipatory bail and bail petitions</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="card demo-card-modern h-100" data-category="Family Law" style="cursor: pointer;">
+                                            <div class="card-body text-center">
+                                                <div class="demo-icon mb-3">
+                                                    <i class="fas fa-users fa-3x text-danger"></i>
+                                                </div>
+                                                <h6 class="card-title">Family Law</h6>
+                                                <p class="card-text small text-muted">Divorce, custody, and matrimonial disputes</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="card demo-card-modern h-100" data-category="Corporate Law" style="cursor: pointer;">
+                                            <div class="card-body text-center">
+                                                <div class="demo-icon mb-3">
+                                                    <i class="fas fa-building fa-3x text-dark"></i>
+                                                </div>
+                                                <h6 class="card-title">Corporate Law</h6>
+                                                <p class="card-text small text-muted">Company law and shareholder disputes</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="demoResult" class="mt-4" style="display: none;">
+                                    <div class="alert alert-info">
+                                        <h6><i class="fas fa-lightbulb me-2"></i>Demo Scenario Selected</h6>
+                                        <div id="demoText"></div>
+                                        <button id="runDemo" class="btn btn-primary btn-sm mt-3">
+                                            <i class="fas fa-play me-2"></i>Classify This Case
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Text Input Section -->
+            <div class="tab-pane fade" id="text-section" role="tabpanel">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="card">
+                            <div class="card-header bg-primary text-white">
+                                <h5 class="mb-0"><i class="fas fa-edit me-2"></i>Enter Legal Text</h5>
+                            </div>
+                            <div class="card-body">
+                                <form id="textForm">
+                                    <div class="mb-3">
+                                        <label for="legalText" class="form-label">Legal Document Text</label>
+                                        <textarea class="form-control text-input" id="legalText" placeholder="Enter your legal text here for classification..."></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary btn-lg">
+                                        <i class="fas fa-search me-2"></i>Classify Text
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-header bg-info text-white">
+                                <h6 class="mb-0"><i class="fas fa-lightbulb me-2"></i>Sample Texts</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="d-grid gap-2">
+                                    <button class="btn btn-outline-secondary btn-sm sample-text" data-text="The petitioner seeks anticipatory bail in connection with FIR No. 123 under Section 438 of the CrPC.">
+                                        Criminal Case
+                                    </button>
+                                    <button class="btn btn-outline-secondary btn-sm sample-text" data-text="This sale deed is executed on the 15th of September, transferring the title of the immovable property.">
+                                        Property Transfer
+                                    </button>
+                                    <button class="btn btn-outline-secondary btn-sm sample-text" data-text="This agreement shall be governed by the laws of India and any breach of contract will be subject to arbitration.">
+                                        Contract Agreement
+                                    </button>
+                                    <button class="btn btn-outline-secondary btn-sm sample-text" data-text="The fundamental right to equality under Article 14 of the Constitution has been violated.">
+                                        Constitutional Law
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- File Upload Section -->
+            <div class="tab-pane fade" id="file-section" role="tabpanel">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="card">
+                            <div class="card-header bg-success text-white">
+                                <h5 class="mb-0"><i class="fas fa-cloud-upload-alt me-2"></i>Upload Legal Document</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="upload-zone" id="uploadArea">
+                                    <div class="upload-icon">
+                                        <i class="fas fa-cloud-upload-alt"></i>
+                                    </div>
+                                    <h5>Drag & Drop Files Here</h5>
+                                    <p class="text-muted">or click to browse</p>
+                                    <p class="small text-muted mb-0">
+                                        <i class="fas fa-info-circle"></i> 
+                                        Supported: PDF, TXT (Max 16MB)
+                                    </p>
+                                    <input type="file" id="fileInput" accept=".pdf,.txt" style="display: none;">
+                                </div>
+                                <div id="fileInfo" class="mt-3" style="display: none;">
+                                    <div class="alert alert-info">
+                                        <i class="fas fa-info-circle me-2"></i>
+                                        <span id="fileName"></span>
+                                    </div>
+                                    <button id="processFile" class="btn btn-success btn-lg">
+                                        <i class="fas fa-cogs me-2"></i>Process Document
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-header bg-warning text-dark">
+                                <h6 class="mb-0"><i class="fas fa-info-circle me-2"></i>Supported Formats</h6>
+                            </div>
+                            <div class="card-body">
+                                <ul class="list-unstyled mb-0">
+                                    <li><i class="fas fa-file-pdf text-danger me-2"></i>PDF Documents</li>
+                                    <li><i class="fas fa-file-alt text-primary me-2"></i>Text Files</li>
+                                </ul>
+                                <hr>
+                                <small class="text-muted">
+                                    <i class="fas fa-exclamation-triangle me-1"></i>
+                                    Max file size: 16MB
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analytics Section -->
+            <div class="tab-pane fade" id="analytics-section" role="tabpanel">
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0"><i class="fas fa-chart-line me-2"></i>Model Analytics & Insights</h5>
+                                <button id="refreshAnalytics" class="btn btn-light btn-sm">
+                                    <i class="fas fa-sync-alt me-1"></i>Refresh
+                                </button>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-lg-8">
+                                        <div class="row mb-4">
+                                            <div class="col-md-6">
+                                                <div class="card border-primary">
+                                                    <div class="card-body text-center">
+                                                        <div class="display-4 text-primary mb-2" id="totalSamples">--</div>
+                                                        <p class="text-muted mb-0">Training Samples</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="card border-success">
+                                                    <div class="card-body text-center">
+                                                        <div class="display-4 text-success mb-2" id="modelAccuracy">--%</div>
+                                                        <p class="text-muted mb-0">Model Accuracy</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Dataset Distribution Chart -->
+                                        <div class="card mb-4">
+                                            <div class="card-header">
+                                                <h6 class="mb-0"><i class="fas fa-chart-pie me-2"></i>Dataset Category Distribution</h6>
+                                            </div>
+                                            <div class="card-body">
+                                                <canvas id="categoryChart" height="300"></canvas>
+                                            </div>
+                                        </div>
+
+                                        <!-- Performance Metrics Chart -->
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h6 class="mb-0"><i class="fas fa-chart-bar me-2"></i>Model Performance Metrics</h6>
+                                            </div>
+                                            <div class="card-body">
+                                                <canvas id="metricsChart" height="250"></canvas>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-4">
+                                        <div class="card mb-4">
+                                            <div class="card-header bg-primary text-white">
+                                                <h6 class="mb-0"><i class="fas fa-database me-2"></i>Dataset Statistics</h6>
+                                            </div>
+                                            <div class="card-body">
+                                                <div id="datasetStats">
+                                                    <div class="text-center">
+                                                        <div class="spinner-border text-primary" role="status">
+                                                            <span class="visually-hidden">Loading...</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="card mb-4">
+                                            <div class="card-header bg-success text-white">
+                                                <h6 class="mb-0"><i class="fas fa-robot me-2"></i>Model Information</h6>
+                                            </div>
+                                            <div class="card-body">
+                                                <div id="modelInfo">
+                                                    <div class="text-center">
+                                                        <div class="spinner-border text-success" role="status">
+                                                            <span class="visually-hidden">Loading...</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="card">
+                                            <div class="card-header bg-warning text-dark">
+                                                <h6 class="mb-0"><i class="fas fa-lightbulb me-2"></i>Key Insights</h6>
+                                            </div>
+                                            <div class="card-body">
+                                                <ul class="list-unstyled mb-0 small">
+                                                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Trained on 9,924 legal documents</li>
+                                                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>9 legal categories supported</li>
+                                                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>Legal-BERT specialized model</li>
+                                                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>25 years data (2000-2025)</li>
+                                                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i>80%+ accuracy across categories</li>
+                                                    <li><i class="fas fa-info-circle text-info me-2"></i>GPU accelerated predictions</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FIR Assistant Section -->
+            <div class="tab-pane fade" id="fir-section" role="tabpanel">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="card">
+                            <div class="card-header bg-danger text-white">
+                                <h5 class="mb-0"><i class="fas fa-shield-alt me-2"></i>FIR Section Predictor</h5>
+                                <small>For Police Officers: Get instant IPC section recommendations for FIR</small>
+                            </div>
+                            <div class="card-body">
+                                <form id="firForm">
+                                    <div class="mb-3">
+                                        <label class="form-label fw-bold">Describe the Incident</label>
+                                        <div class="position-relative">
+                                            <textarea class="form-control" id="incidentText" rows="8" 
+                                                      placeholder="Example: Complainant reports that someone stole his mobile phone from his pocket while he was traveling in the metro. The phone is a Samsung Galaxy S21 worth Rs. 45,000. Complainant suspects a person who was standing next to him in the crowded metro coach."></textarea>
+                                            <button type="button" id="voiceInputBtn" class="btn btn-voice-input" title="Click to speak (Hindi/English supported)">
+                                                <i class="fas fa-microphone"></i>
+                                            </button>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <small class="text-muted">
+                                                <i class="fas fa-keyboard me-1"></i>Type or 
+                                                <i class="fas fa-microphone me-1"></i>Click microphone to speak
+                                            </small>
+                                            <div class="btn-group btn-group-sm" role="group">
+                                                <input type="radio" class="btn-check" name="voiceLang" id="langHindi" value="hi-IN" checked>
+                                                <label class="btn btn-outline-primary btn-sm" for="langHindi">हिंदी</label>
+                                                
+                                                <input type="radio" class="btn-check" name="voiceLang" id="langEnglish" value="en-IN">
+                                                <label class="btn btn-outline-primary btn-sm" for="langEnglish">English</label>
+                                            </div>
+                                        </div>
+                                        <div id="voiceStatus" class="mt-2" style="display: none;">
+                                            <span class="badge bg-danger">
+                                                <i class="fas fa-circle pulse-animation me-1"></i>Listening...
+                                            </span>
+                                        </div>
+                                        <div id="languageDetected" class="mt-2" style="display: none;">
+                                            <span class="badge bg-info">
+                                                <i class="fas fa-language me-1"></i>Language: <span id="detectedLang">Hindi (हिंदी)</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label class="form-label fw-bold">Quick Templates:</label>
+                                        <div class="btn-group flex-wrap" role="group">
+                                            <button type="button" class="btn btn-sm btn-outline-secondary mb-2" onclick="loadFIRTemplate('theft')">
+                                                <i class="fas fa-mobile-alt me-1"></i>Theft
+                                            </button>
+                                            <button type="button" class="btn btn-sm btn-outline-secondary mb-2" onclick="loadFIRTemplate('assault')">
+                                                <i class="fas fa-fist-raised me-1"></i>Assault
+                                            </button>
+                                            <button type="button" class="btn btn-sm btn-outline-secondary mb-2" onclick="loadFIRTemplate('fraud')">
+                                                <i class="fas fa-user-secret me-1"></i>Fraud
+                                            </button>
+                                            <button type="button" class="btn btn-sm btn-outline-secondary mb-2" onclick="loadFIRTemplate('accident')">
+                                                <i class="fas fa-car-crash me-1"></i>Accident
+                                            </button>
+                                            <button type="button" class="btn btn-sm btn-outline-secondary mb-2" onclick="loadFIRTemplate('dowry')">
+                                                <i class="fas fa-female me-1"></i>Dowry
+                                            </button>
+                                        </div>
+                                    </div>
+                                    
+                                    <button type="submit" class="btn btn-danger btn-lg w-100">
+                                        <i class="fas fa-gavel me-2"></i>Get IPC Sections & Draft FIR
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-4">
+                        <div class="card bg-light">
+                            <div class="card-body">
+                                <h6 class="fw-bold mb-3"><i class="fas fa-info-circle text-danger me-2"></i>How It Works</h6>
+                                <ol class="small">
+                                    <li class="mb-2">Describe the incident in detail</li>
+                                    <li class="mb-2">Click "Get IPC Sections"</li>
+                                    <li class="mb-2">Review suggested IPC sections</li>
+                                    <li class="mb-2">Get auto-generated FIR draft</li>
+                                    <li>Verify with legal officer before filing</li>
+                                </ol>
+                                
+                                <hr>
+                                
+                                <h6 class="fw-bold mb-3"><i class="fas fa-exclamation-triangle text-warning me-2"></i>Important Note</h6>
+                                <p class="small text-muted mb-0">
+                                    This is an AI-powered assistant to help suggest appropriate sections. 
+                                    Always verify the sections with a legal officer before filing the FIR.
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div class="card bg-info text-white mt-3">
+                            <div class="card-body">
+                                <h6 class="fw-bold mb-2"><i class="fas fa-lightbulb me-2"></i>Coverage</h6>
+                                <ul class="small mb-0">
+                                    <li>100+ IPC sections</li>
+                                    <li>9 crime categories</li>
+                                    <li>Based on 9,924 Supreme Court judgments</li>
+                                    <li>Instant section recommendations</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- FIR Results Section -->
+                <div id="firResults" style="display: none;" class="mt-4">
+                    <div class="card shadow-sm border-danger">
+                        <div class="card-header bg-light">
+                            <h5 class="mb-0"><i class="fas fa-file-alt me-2"></i>FIR Recommendations</h5>
+                        </div>
+                        <div class="card-body" id="firResultsContent">
+                            <!-- Dynamic content will be inserted here by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div class="result-section" id="results">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="fas fa-check-circle me-2"></i>Classification Result</h5>
+                </div>
+                <div class="card-body">
+                    <div class="prediction-result" id="predictionResult">
+                        <!-- Results will be displayed here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay (Simpler Solution) -->
+    <div id="loadingOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 9999; justify-content: center; align-items: center;">
+        <div class="text-center bg-white p-5 rounded shadow-lg">
+            <div class="spinner-border text-primary mb-3" role="status" style="width: 3rem; height: 3rem;">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <h5 class="text-dark">Processing...</h5>
+            <p class="text-muted mb-0">Please wait while we classify your document</p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    
+    <!-- Modern UI JavaScript -->
+    <script src="{{ url_for('static', filename='js/modern-ui.js') }}"></script>
+    
+    <script>
+        // Initialize on page load
+        console.log('🎨 Modern UI features loaded!');
+        console.log('⌨️  Keyboard shortcuts:');
+        console.log('  - Ctrl/Cmd + K: Focus search');
+        console.log('  - Ctrl/Cmd + D: Toggle dark mode');
+        console.log('  - Esc: Close modals');
+    </script>
+</body>
+</html>

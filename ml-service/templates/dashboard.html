@@ -1,0 +1,2689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NyayaMitra - Professional Legal Dashboard</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚖️</text></svg>">
+    
+    <!-- Bootstrap & Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Chart.js for Analytics -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    
+    <!-- Custom CSS -->
+    <link href="{{ url_for('static', filename='css/modern-design.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/dashboard-layout.css') }}" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Dashboard Container -->
+<div class="dashboard-container">
+    
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <!-- Sidebar Header -->
+        <div class="sidebar-header">
+            <div class="sidebar-logo">
+                <div class="sidebar-logo-icon">
+                    <i class="fas fa-balance-scale"></i>
+                </div>
+                <div class="sidebar-logo-text">
+                    <h3>NyayaMitra</h3>
+                    <p>Legal Assistant</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Sidebar Menu -->
+        <div class="sidebar-menu">
+            <!-- Main Features -->
+            <div class="sidebar-section">
+                <div class="sidebar-section-title">Main Features</div>
+                <a href="#" class="sidebar-nav-item active" data-page="dashboard">
+                    <i class="fas fa-home"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#" class="sidebar-nav-item" data-page="fir-assistant">
+                    <i class="fas fa-file-alt"></i>
+                    <span>FIR Assistant</span>
+                </a>
+                <a href="#" class="sidebar-nav-item" data-page="case-laws">
+                    <i class="fas fa-gavel"></i>
+                    <span>Case Laws</span>
+                </a>
+                <a href="#" class="sidebar-nav-item" data-page="legal-sections">
+                    <i class="fas fa-book"></i>
+                    <span>Legal Sections</span>
+                </a>
+                <a href="#" class="sidebar-nav-item" data-page="ai-chatbot">
+                    <i class="fas fa-robot"></i>
+                    <span>AI Legal Assistant</span>
+                </a>
+            </div>
+            
+            <!-- Tools & Settings -->
+            <div class="sidebar-section">
+                <div class="sidebar-section-title">Tools & Settings</div>
+                <a href="#" class="sidebar-nav-item" data-page="search">
+                    <i class="fas fa-search"></i>
+                    <span>Search</span>
+                </a>
+                <a href="#" class="sidebar-nav-item" data-page="analytics">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Analytics</span>
+                </a>
+                <a href="#" class="sidebar-nav-item" data-page="settings">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </a>
+            </div>
+        </div>
+        
+        <!-- Sidebar Footer -->
+        <div class="sidebar-footer">
+            <div class="sidebar-user">
+                <div class="sidebar-user-avatar">
+                    OS
+                </div>
+                <div class="sidebar-user-info">
+                    <p class="sidebar-user-name">Officer Singh</p>
+                    <p class="sidebar-user-role">Administrator</p>
+                </div>
+                <i class="fas fa-chevron-up" style="color: #9ca3af;"></i>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        
+        <!-- Dashboard Page -->
+        <div id="page-dashboard" class="page-content">
+            <!-- Main Header -->
+            <div class="main-header">
+                <h1>Dashboard</h1>
+                <p>Welcome to NyayaMitra - Your AI-powered legal assistant</p>
+            </div>
+            
+            <!-- Main Body -->
+            <div class="main-body">
+                
+                <!-- Dashboard Stats -->
+                <div class="dashboard-stats">
+                    <div class="stat-card-dashboard">
+                        <div class="stat-card-header">
+                            <span class="stat-card-title">Documents Classified</span>
+                            <div class="stat-card-icon primary">
+                                <i class="fas fa-file-alt"></i>
+                            </div>
+                        </div>
+                        <div class="stat-card-value" data-count="1247">0</div>
+                        <div class="stat-card-meta">
+                            Total processed
+                            <span class="stat-card-trend positive">
+                                <i class="fas fa-arrow-up"></i> 12% from last month
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card-dashboard">
+                        <div class="stat-card-header">
+                            <span class="stat-card-title">Accuracy Rate</span>
+                            <div class="stat-card-icon success">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                        </div>
+                        <div class="stat-card-value">73.5%</div>
+                        <div class="stat-card-meta">
+                            Model accuracy
+                            <span class="stat-card-trend positive">
+                                <i class="fas fa-arrow-up"></i> +2.1% improvement
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card-dashboard">
+                        <div class="stat-card-header">
+                            <span class="stat-card-title">Training Cases</span>
+                            <div class="stat-card-icon warning">
+                                <i class="fas fa-database"></i>
+                            </div>
+                        </div>
+                        <div class="stat-card-value" data-count="9924">0</div>
+                        <div class="stat-card-meta">
+                            Updated database
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card-dashboard">
+                        <div class="stat-card-header">
+                            <span class="stat-card-title">Active Users</span>
+                            <div class="stat-card-icon info">
+                                <i class="fas fa-users"></i>
+                            </div>
+                        </div>
+                        <div class="stat-card-value" data-count="89">0</div>
+                        <div class="stat-card-meta">
+                            Officers online
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Quick Actions -->
+                <div class="quick-actions-section">
+                    <div class="section-header">
+                        <h3>Quick Actions</h3>
+                        <p>Start working with the most commonly used features</p>
+                    </div>
+                    <div class="quick-actions-grid">
+                        <a href="#" class="quick-action-btn primary" data-page="fir-assistant">
+                            <div class="quick-action-icon">
+                                <i class="fas fa-file-signature"></i>
+                            </div>
+                            <p class="quick-action-title">Draft FIR</p>
+                        </a>
+                        <a href="#" class="quick-action-btn" data-page="text-classify">
+                            <div class="quick-action-icon">
+                                <i class="fas fa-edit"></i>
+                            </div>
+                            <p class="quick-action-title">Classify Text</p>
+                        </a>
+                        <a href="#" class="quick-action-btn" data-page="file-upload">
+                            <div class="quick-action-icon">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                            </div>
+                            <p class="quick-action-title">Upload File</p>
+                        </a>
+                        <a href="#" class="quick-action-btn" data-page="voice-input">
+                            <div class="quick-action-icon">
+                                <i class="fas fa-microphone"></i>
+                            </div>
+                            <p class="quick-action-title">Voice Input</p>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Recent Activity & System Alerts -->
+                <div class="dashboard-grid">
+                    <!-- Recent Activity -->
+                    <div class="activity-card">
+                        <div class="section-header">
+                            <h3>Recent Activity</h3>
+                            <p>Latest classifications and system updates</p>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-indicator"></div>
+                            <div class="activity-content">
+                                <p class="activity-title">Document #2024-001247 classified</p>
+                                <p class="activity-meta">Criminal Appeal - IPC 302, 307</p>
+                            </div>
+                            <span class="activity-time">2 min ago</span>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-indicator"></div>
+                            <div class="activity-content">
+                                <p class="activity-title">Document #2024-001246 classified</p>
+                                <p class="activity-meta">Bail Application - IPC 420</p>
+                            </div>
+                            <span class="activity-time">15 min ago</span>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-indicator"></div>
+                            <div class="activity-content">
+                                <p class="activity-title">Document #2024-001245 classified</p>
+                                <p class="activity-meta">Property Dispute - Land Title</p>
+                            </div>
+                            <span class="activity-time">1 hour ago</span>
+                        </div>
+                    </div>
+                    
+                    <!-- System Alerts -->
+                    <div class="activity-card">
+                        <div class="section-header">
+                            <h3>System Alerts</h3>
+                            <p>Important notifications and updates</p>
+                        </div>
+                        <div class="alert-item success">
+                            <div class="alert-icon">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div class="alert-content">
+                                <p><strong>System Update Complete</strong></p>
+                                <p style="font-size: 13px; color: #6b7280; margin-top: 4px;">Model accuracy improved to 73.5%</p>
+                            </div>
+                        </div>
+                        <div class="alert-item info">
+                            <div class="alert-icon">
+                                <i class="fas fa-info-circle"></i>
+                            </div>
+                            <div class="alert-content">
+                                <p><strong>New Feature Available</strong></p>
+                                <p style="font-size: 13px; color: #6b7280; margin-top: 4px;">Voice input now supports Hindi and Marathi</p>
+                            </div>
+                        </div>
+                        <div class="alert-item warning">
+                            <div class="alert-icon">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                            <div class="alert-content">
+                                <p><strong>Maintenance Scheduled</strong></p>
+                                <p style="font-size: 13px; color: #6b7280; margin-top: 4px;">System update on Nov 15, 2025 at 2:00 AM</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        
+        <!-- FIR Assistant Page -->
+        <div id="page-fir-assistant" class="page-content" style="display: none;">
+            <div class="main-header">
+                <h1>FIR Assistant</h1>
+                <p>AI-powered IPC section recommendation system for police officers</p>
+            </div>
+            <div class="main-body">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="card">
+                            <div class="card-header bg-danger text-white">
+                                <h5 class="mb-0"><i class="fas fa-shield-alt me-2"></i>FIR Section Predictor</h5>
+                                <small>For Police Officers: Get instant IPC section recommendations for FIR</small>
+                            </div>
+                            <div class="card-body">
+                                <form id="firForm">
+                                    <div class="mb-3">
+                                        <label class="form-label fw-bold">Describe the Incident</label>
+                                        <div class="position-relative">
+                                            <textarea class="form-control" id="incidentText" rows="8" 
+                                                      placeholder="Example: Complainant reports that someone stole his mobile phone from his pocket while he was traveling in the metro. The phone is a Samsung Galaxy S21 worth Rs. 45,000. Complainant suspects a person who was standing next to him in the crowded metro coach."></textarea>
+                                            <button type="button" id="voiceInputBtn" class="btn btn-voice-input" title="Click to speak (Hindi/English supported)">
+                                                <i class="fas fa-microphone"></i>
+                                            </button>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center mt-2">
+                                            <small class="text-muted">
+                                                <i class="fas fa-keyboard me-1"></i>Type or 
+                                                <i class="fas fa-microphone me-1"></i>Click microphone to speak
+                                            </small>
+                                            <div class="btn-group btn-group-sm" role="group">
+                                                <input type="radio" class="btn-check" name="voiceLang" id="langHindi" value="hi-IN" checked>
+                                                <label class="btn btn-outline-primary btn-sm" for="langHindi">हिंदी</label>
+                                                
+                                                <input type="radio" class="btn-check" name="voiceLang" id="langEnglish" value="en-IN">
+                                                <label class="btn btn-outline-primary btn-sm" for="langEnglish">English</label>
+                                            </div>
+                                        </div>
+                                        <div id="voiceStatus" class="mt-2" style="display: none;">
+                                            <span class="badge bg-danger">
+                                                <i class="fas fa-circle pulse-animation me-1"></i>Listening...
+                                            </span>
+                                        </div>
+                                        <div id="languageDetected" class="mt-2" style="display: none;">
+                                            <span class="badge bg-info">
+                                                <i class="fas fa-language me-1"></i>Language: <span id="detectedLang">Hindi (हिंदी)</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label class="form-label fw-bold">Quick Templates:</label>
+                                        <div class="btn-group flex-wrap" role="group">
+                                            <button type="button" class="btn btn-sm btn-outline-secondary mb-2" onclick="loadFIRTemplate('theft')">
+                                                <i class="fas fa-mobile-alt me-1"></i>Theft
+                                            </button>
+                                            <button type="button" class="btn btn-sm btn-outline-secondary mb-2" onclick="loadFIRTemplate('assault')">
+                                                <i class="fas fa-fist-raised me-1"></i>Assault
+                                            </button>
+                                            <button type="button" class="btn btn-sm btn-outline-secondary mb-2" onclick="loadFIRTemplate('fraud')">
+                                                <i class="fas fa-user-secret me-1"></i>Fraud
+                                            </button>
+                                            <button type="button" class="btn btn-sm btn-outline-secondary mb-2" onclick="loadFIRTemplate('accident')">
+                                                <i class="fas fa-car-crash me-1"></i>Accident
+                                            </button>
+                                            <button type="button" class="btn btn-sm btn-outline-secondary mb-2" onclick="loadFIRTemplate('dowry')">
+                                                <i class="fas fa-female me-1"></i>Dowry
+                                            </button>
+                                        </div>
+                                    </div>
+                                    
+                                    <button type="submit" class="btn btn-danger btn-lg w-100">
+                                        <i class="fas fa-gavel me-2"></i>Get IPC Sections & Draft FIR
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-4">
+                        <div class="card bg-light">
+                            <div class="card-body">
+                                <h6 class="fw-bold mb-3"><i class="fas fa-info-circle text-danger me-2"></i>How It Works</h6>
+                                <ol class="small">
+                                    <li class="mb-2">Describe the incident in detail</li>
+                                    <li class="mb-2">Click "Get IPC Sections"</li>
+                                    <li class="mb-2">Review suggested IPC sections</li>
+                                    <li class="mb-2">Get auto-generated FIR draft</li>
+                                    <li>Verify with legal officer before filing</li>
+                                </ol>
+                                
+                                <hr>
+                                
+                                <h6 class="fw-bold mb-3"><i class="fas fa-exclamation-triangle text-warning me-2"></i>Important Note</h6>
+                                <p class="small text-muted mb-0">
+                                    This is an AI-powered assistant to help suggest appropriate sections. 
+                                    Always verify the sections with a legal officer before filing the FIR.
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div class="card bg-info text-white mt-3">
+                            <div class="card-body">
+                                <h6 class="fw-bold mb-2"><i class="fas fa-lightbulb me-2"></i>Coverage</h6>
+                                <ul class="small mb-0">
+                                    <li>100+ IPC sections</li>
+                                    <li>9 crime categories</li>
+                                    <li>Based on 9,924 Supreme Court judgments</li>
+                                    <li>Instant section recommendations</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- FIR Results Section -->
+                <div id="firResults" style="display: none;" class="mt-4">
+                    <div class="card shadow-sm border-danger">
+                        <div class="card-header bg-light">
+                            <h5 class="mb-0"><i class="fas fa-file-alt me-2"></i>FIR Recommendations</h5>
+                        </div>
+                        <div class="card-body" id="firResultsContent">
+                            <!-- Dynamic content will be inserted here by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Voice Input Page -->
+        <div id="page-voice-input" class="page-content" style="display: none;">
+            <div class="main-header">
+                <h1>Voice Input</h1>
+                <p>Record incident details using voice input with multi-language support</p>
+            </div>
+            <div class="main-body">
+                <div class="voice-input-container">
+                    <!-- Voice Recording Card -->
+                    <div class="voice-recording-card">
+                        <div class="voice-title">🎙️ Voice Recording</div>
+                        <p class="voice-subtitle">Click the microphone to start recording incident details</p>
+                        
+                        <button class="voice-button" id="voiceRecordBtn">
+                            <i class="fas fa-microphone"></i>
+                        </button>
+                        
+                        <div class="voice-status">Ready to Record</div>
+                        
+                        <div class="voice-languages">
+                            <button class="voice-lang-btn active">हिंदी</button>
+                            <button class="voice-lang-btn">English</button>
+                            <button class="voice-lang-btn">मराठी</button>
+                        </div>
+                        
+                        <div class="voice-status-bar">
+                            <small><i class="fas fa-circle" style="color: #9ca3af;"></i> Recording Inactive</small>
+                            <small class="ms-3"><i class="fas fa-volume-up"></i> Audio Level: Good</small>
+                        </div>
+                    </div>
+                    
+                    <!-- Recording Tips -->
+                    <div class="recording-tips">
+                        <div class="tips-header">Recording Tips</div>
+                        <p class="tips-subtitle">Follow these guidelines for better voice recognition</p>
+                        
+                        <div class="tips-grid">
+                            <div class="tips-column dos">
+                                <h4>Do's</h4>
+                                <ul class="tips-list">
+                                    <li><i class="fas fa-check-circle"></i> Speak clearly and at moderate pace</li>
+                                    <li><i class="fas fa-check-circle"></i> Use proper names and dates</li>
+                                    <li><i class="fas fa-check-circle"></i> Provide complete details</li>
+                                    <li><i class="fas fa-check-circle"></i> Record in quiet environment</li>
+                                </ul>
+                            </div>
+                            <div class="tips-column donts">
+                                <h4>Don'ts</h4>
+                                <ul class="tips-list">
+                                    <li><i class="fas fa-times-circle"></i> Don't speak too fast or too slow</li>
+                                    <li><i class="fas fa-times-circle"></i> Avoid background noise</li>
+                                    <li><i class="fas fa-times-circle"></i> Don't use unclear abbreviations</li>
+                                    <li><i class="fas fa-times-circle"></i> Avoid multiple speakers</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- AI Legal Assistant Chatbot Page -->
+        <div id="page-ai-chatbot" class="page-content" style="display: none;">
+            <div class="main-header">
+                <h1>🤖 AI Legal Assistant</h1>
+                <p>Chat with AI for legal advice, FIR generation, case law search, and more - Powered by Multi-language support</p>
+            </div>
+            <div class="main-body">
+                <div class="row h-100">
+                    <div class="col-lg-8">
+                        <!-- Chat Interface -->
+                        <div class="card shadow-sm h-100 d-flex flex-column" style="height: 700px;">
+                            <div class="card-header bg-gradient" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="d-flex align-items-center text-white">
+                                        <div class="chat-avatar me-3">
+                                            <i class="fas fa-robot fa-2x"></i>
+                                        </div>
+                                        <div>
+                                            <h5 class="mb-0">NyayaMitra AI</h5>
+                                            <small><i class="fas fa-circle text-success" style="font-size: 8px;"></i> Online - Ready to assist</small>
+                                        </div>
+                                    </div>
+                                    <div class="btn-group">
+                                        <button class="btn btn-sm btn-light" id="clearChatBtn" title="Clear Chat">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-light" id="exportChatBtn" title="Export Chat">
+                                            <i class="fas fa-download"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Chat Messages Area -->
+                            <div class="card-body flex-grow-1 overflow-auto" id="chatMessages" style="background-color: #f8f9fa; max-height: 500px;">
+                                <!-- Welcome Message -->
+                                <div class="chat-message bot-message">
+                                    <div class="chat-message-avatar">
+                                        <i class="fas fa-robot"></i>
+                                    </div>
+                                    <div class="chat-message-content">
+                                        <div class="chat-message-bubble bot">
+                                            <p class="mb-2"><strong>Namaste! 🙏 I'm NyayaMitra AI, your intelligent legal assistant.</strong></p>
+                                            <p class="mb-2">I can help you with:</p>
+                                            <ul class="mb-2" style="padding-left: 20px;">
+                                                <li>📝 Generate FIR drafts from voice or text</li>
+                                                <li>⚖️ Identify relevant IPC sections</li>
+                                                <li>🔍 Search case laws and precedents</li>
+                                                <li>💡 Provide legal guidance and advice</li>
+                                                <li>🌐 Support for 10+ Indian languages</li>
+                                            </ul>
+                                            <p class="mb-0"><em>Ask me anything in Hindi, English, or your preferred language!</em></p>
+                                        </div>
+                                        <div class="chat-message-time">Just now</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Chat Input Area -->
+                            <div class="card-footer bg-white border-top">
+                                <div class="mb-2">
+                                    <div class="d-flex gap-2">
+                                        <button class="btn btn-sm btn-outline-primary quick-action-btn" data-action="fir">
+                                            <i class="fas fa-file-alt"></i> Generate FIR
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-primary quick-action-btn" data-action="ipc">
+                                            <i class="fas fa-balance-scale"></i> Find IPC Section
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-primary quick-action-btn" data-action="case">
+                                            <i class="fas fa-gavel"></i> Search Cases
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-primary quick-action-btn" data-action="advice">
+                                            <i class="fas fa-lightbulb"></i> Legal Advice
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="input-group">
+                                    <select class="form-select" id="chatLanguageSelect" style="max-width: 150px;">
+                                        <option value="en">English</option>
+                                        <option value="hi" selected>हिंदी</option>
+                                        <option value="mr">मराठी</option>
+                                        <option value="ta">தமிழ்</option>
+                                        <option value="te">తెలుగు</option>
+                                        <option value="bn">বাংলা</option>
+                                        <option value="gu">ગુજરાતી</option>
+                                        <option value="kn">ಕನ್ನಡ</option>
+                                        <option value="ml">മലയാളം</option>
+                                        <option value="pa">ਪੰਜਾਬੀ</option>
+                                    </select>
+                                    <button class="btn btn-outline-secondary" id="voiceChatBtn" type="button" title="Voice Input">
+                                        <i class="fas fa-microphone"></i>
+                                    </button>
+                                    <input type="text" class="form-control" id="chatInput" placeholder="Type your legal query here..." />
+                                    <button class="btn btn-primary" id="sendChatBtn" type="button">
+                                        <i class="fas fa-paper-plane"></i> Send
+                                    </button>
+                                </div>
+                                <div class="mt-2">
+                                    <small class="text-muted">
+                                        <i class="fas fa-shield-alt"></i> Secure & Confidential | 
+                                        <i class="fas fa-globe"></i> Multi-language Support | 
+                                        <i class="fas fa-brain"></i> AI-Powered by OpenRouter
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-4">
+                        <!-- Chat Features Panel -->
+                        <div class="card shadow-sm mb-3">
+                            <div class="card-header bg-light">
+                                <h6 class="mb-0"><i class="fas fa-info-circle me-2"></i>Features</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="feature-item mb-3">
+                                    <div class="d-flex align-items-start">
+                                        <i class="fas fa-globe text-primary fa-2x me-3"></i>
+                                        <div>
+                                            <h6>Multi-Language</h6>
+                                            <small class="text-muted">Speak or type in 10+ Indian languages with automatic translation</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="feature-item mb-3">
+                                    <div class="d-flex align-items-start">
+                                        <i class="fas fa-microphone text-success fa-2x me-3"></i>
+                                        <div>
+                                            <h6>Voice Input</h6>
+                                            <small class="text-muted">Use voice to describe incidents - powered by Bhashini AI</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="feature-item mb-3">
+                                    <div class="d-flex align-items-start">
+                                        <i class="fas fa-file-contract text-warning fa-2x me-3"></i>
+                                        <div>
+                                            <h6>Smart FIR Generation</h6>
+                                            <small class="text-muted">Auto-generate complete FIR from conversation</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="feature-item mb-3">
+                                    <div class="d-flex align-items-start">
+                                        <i class="fas fa-search text-info fa-2x me-3"></i>
+                                        <div>
+                                            <h6>Intelligent Search</h6>
+                                            <small class="text-muted">Find relevant IPC sections and case laws instantly</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Conversation Stats -->
+                        <div class="card shadow-sm">
+                            <div class="card-header bg-light">
+                                <h6 class="mb-0"><i class="fas fa-chart-bar me-2"></i>Session Stats</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="stat-row mb-2">
+                                    <small class="text-muted">Messages</small>
+                                    <strong id="chatMessageCount">1</strong>
+                                </div>
+                                <div class="stat-row mb-2">
+                                    <small class="text-muted">Language</small>
+                                    <strong id="chatLanguageName">Hindi</strong>
+                                </div>
+                                <div class="stat-row mb-2">
+                                    <small class="text-muted">Session Time</small>
+                                    <strong id="chatSessionTime">0m 0s</strong>
+                                </div>
+                                <div class="stat-row">
+                                    <small class="text-muted">Status</small>
+                                    <span class="badge bg-success">Active</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Sample Queries -->
+                        <div class="card shadow-sm mt-3">
+                            <div class="card-header bg-light">
+                                <h6 class="mb-0"><i class="fas fa-question-circle me-2"></i>Sample Queries</h6>
+                            </div>
+                            <div class="card-body p-2">
+                                <div class="sample-query" data-query="मेरे साथ धोखाधड़ी हुई है, FIR कैसे दर्ज करें?">
+                                    <small>"मेरे साथ धोखाधड़ी हुई है, FIR कैसे दर्ज करें?"</small>
+                                </div>
+                                <div class="sample-query" data-query="What is IPC Section 420?">
+                                    <small>"What is IPC Section 420?"</small>
+                                </div>
+                                <div class="sample-query" data-query="Generate FIR for theft incident">
+                                    <small>"Generate FIR for theft incident"</small>
+                                </div>
+                                <div class="sample-query" data-query="Show me case laws on fraud">
+                                    <small>"Show me case laws on fraud"</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Analytics Page - COMPREHENSIVE -->
+        <div id="page-analytics" class="page-content" style="display: none;">
+            <div class="main-header">
+                <h1>📊 Comprehensive Analytics Dashboard</h1>
+                <p>Complete model performance metrics, insights, and visualizations</p>
+            </div>
+            <div class="main-body">
+                
+                <!-- Loading Indicator -->
+                <div id="analyticsLoading" class="text-center py-5">
+                    <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+                    <p class="mt-3 text-muted">Loading comprehensive analytics...</p>
+                </div>
+                
+                <!-- Analytics Content (hidden until loaded) -->
+                <div id="analyticsContent" style="display: none;">
+                    
+                    <!-- Top Stat Cards -->
+                    <div class="row mb-4" id="analyticsStatCards">
+                        <!-- Stats will be inserted here -->
+                    </div>
+                    
+                    <!-- Main Charts Row -->
+                    <div class="row mb-4">
+                        <!-- Category Distribution -->
+                        <div class="col-lg-6 mb-4">
+                            <div class="card shadow-sm">
+                                <div class="card-header bg-primary text-white">
+                                    <h6 class="mb-0"><i class="fas fa-chart-pie me-2"></i>Training Data Distribution</h6>
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="categoryDistChart" height="300"></canvas>
+                                </div>
+                                <div class="card-footer bg-light">
+                                    <small class="text-muted"><i class="fas fa-info-circle me-1"></i>Distribution of 9,924 training documents across 9 legal categories</small>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Performance Metrics -->
+                        <div class="col-lg-6 mb-4">
+                            <div class="card shadow-sm">
+                                <div class="card-header bg-success text-white">
+                                    <h6 class="mb-0"><i class="fas fa-chart-bar me-2"></i>Model Performance Metrics</h6>
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="performanceMetricsChart" height="300"></canvas>
+                                </div>
+                                <div class="card-footer bg-light">
+                                    <small class="text-muted"><i class="fas fa-info-circle me-1"></i>Precision, Recall, and F1-Score for each category</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Top/Bottom Performers Row -->
+                    <div class="row mb-4">
+                        <!-- Top Performers -->
+                        <div class="col-lg-6 mb-4">
+                            <div class="card shadow-sm border-success">
+                                <div class="card-header bg-success text-white">
+                                    <h6 class="mb-0"><i class="fas fa-trophy me-2"></i>Top Performing Categories</h6>
+                                </div>
+                                <div class="card-body" id="topPerformersContent">
+                                    <!-- Top performers will be inserted here -->
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Bottom Performers -->
+                        <div class="col-lg-6 mb-4">
+                            <div class="card shadow-sm border-warning">
+                                <div class="card-header bg-warning text-dark">
+                                    <h6 class="mb-0"><i class="fas fa-exclamation-triangle me-2"></i>Categories Needing Improvement</h6>
+                                </div>
+                                <div class="card-body" id="bottomPerformersContent">
+                                    <!-- Bottom performers will be inserted here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Advanced Charts Row -->
+                    <div class="row mb-4">
+                        <!-- Confusion Matrix -->
+                        <div class="col-lg-6 mb-4">
+                            <div class="card shadow-sm">
+                                <div class="card-header bg-info text-white">
+                                    <h6 class="mb-0"><i class="fas fa-table me-2"></i>Confusion Matrix Heatmap</h6>
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="confusionMatrixChart" height="300"></canvas>
+                                </div>
+                                <div class="card-footer bg-light">
+                                    <small class="text-muted"><i class="fas fa-info-circle me-1"></i>Shows actual vs predicted classifications - darker = more predictions</small>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Confidence Distribution -->
+                        <div class="col-lg-6 mb-4">
+                            <div class="card shadow-sm">
+                                <div class="card-header bg-warning text-dark">
+                                    <h6 class="mb-0"><i class="fas fa-chart-area me-2"></i>Prediction Confidence Distribution</h6>
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="confidenceDistChart" height="300"></canvas>
+                                </div>
+                                <div class="card-footer bg-light">
+                                    <small class="text-muted"><i class="fas fa-info-circle me-1"></i>Distribution of model confidence scores - higher is better</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Detailed Metrics Table -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <div class="card shadow-sm">
+                                <div class="card-header bg-dark text-white">
+                                    <h6 class="mb-0"><i class="fas fa-table me-2"></i>Detailed Performance Metrics by Category</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover table-bordered" id="metricsTable">
+                                            <thead class="table-primary">
+                                                <tr>
+                                                    <th>Category</th>
+                                                    <th>Precision</th>
+                                                    <th>Recall</th>
+                                                    <th>F1-Score</th>
+                                                    <th>Support</th>
+                                                    <th>Status</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="metricsTableBody">
+                                                <!-- Metrics will be inserted here -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Data Insights Panel -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card shadow-sm border-info">
+                                <div class="card-header bg-info text-white">
+                                    <h6 class="mb-0"><i class="fas fa-lightbulb me-2"></i>Training Data Insights</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row" id="dataInsightsContent">
+                                        <!-- Insights will be inserted here -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <!-- Case Laws Page -->
+        <div id="page-case-laws" class="page-content" style="display: none;">
+            <div class="main-header">
+                <h1>Case Laws Database</h1>
+                <p>Browse and search 9,924 Supreme Court judgments (2000-2025)</p>
+            </div>
+            <div class="main-body">
+                
+                <!-- Search and Filters -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <!-- Search Bar -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">
+                                    <i class="fas fa-search me-2"></i>Search Cases
+                                </label>
+                                <input type="text" class="form-control" id="caseSearchInput" 
+                                       placeholder="Search by case name, keywords, or text...">
+                            </div>
+                            
+                            <!-- Category Filter -->
+                            <div class="col-md-3">
+                                <label class="form-label fw-bold">
+                                    <i class="fas fa-filter me-2"></i>Category
+                                </label>
+                                <select class="form-select" id="caseCategoryFilter">
+                                    <option value="">All Categories</option>
+                                </select>
+                            </div>
+                            
+                            <!-- Year Filter -->
+                            <div class="col-md-3">
+                                <label class="form-label fw-bold">
+                                    <i class="fas fa-calendar me-2"></i>Year
+                                </label>
+                                <div class="d-flex gap-2">
+                                    <input type="number" class="form-control" id="caseYearFrom" placeholder="From" min="2000" max="2025">
+                                    <input type="number" class="form-control" id="caseYearTo" placeholder="To" min="2000" max="2025">
+                                </div>
+                            </div>
+                            
+                            <!-- Action Buttons -->
+                            <div class="col-12">
+                                <button class="btn btn-primary" id="caseLawsSearchBtn">
+                                    <i class="fas fa-search me-2"></i>Search
+                                </button>
+                                <button class="btn btn-secondary" id="caseLawsResetBtn">
+                                    <i class="fas fa-redo me-2"></i>Reset
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Results Stats -->
+                <div class="alert alert-info" id="caseLawsStats" style="display: none;">
+                    <i class="fas fa-info-circle me-2"></i>
+                    <span id="caseLawsStatsText">Loading...</span>
+                </div>
+                
+                <!-- Loading Spinner -->
+                <div class="text-center py-5" id="caseLawsLoading" style="display: none;">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p class="mt-3 text-muted">Loading cases...</p>
+                </div>
+                
+                <!-- Cases Grid -->
+                <div id="caseLawsGrid" class="row g-3">
+                    <!-- Cases will be inserted here -->
+                </div>
+                
+                <!-- Pagination -->
+                <nav aria-label="Case laws pagination" class="mt-4" id="caseLawsPagination" style="display: none;">
+                    <ul class="pagination justify-content-center" id="caseLawsPaginationList">
+                        <!-- Pagination buttons will be inserted here -->
+                    </ul>
+                </nav>
+                
+            </div>
+        </div>
+        
+        <div id="page-legal-sections" class="page-content" style="display: none;">
+            <div class="main-header">
+                <h1>Legal Sections Database</h1>
+                <p>Browse 100+ IPC sections with complete details</p>
+            </div>
+            <div class="main-body">
+                
+                <!-- Search and Filters -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <!-- Search Bar -->
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">
+                                    <i class="fas fa-search me-2"></i>Search Sections
+                                </label>
+                                <input type="text" class="form-control" id="sectionSearchInput" 
+                                       placeholder="Search by section number, title, or keywords...">
+                            </div>
+                            
+                            <!-- Category Filter -->
+                            <div class="col-md-3">
+                                <label class="form-label fw-bold">
+                                    <i class="fas fa-filter me-2"></i>Category
+                                </label>
+                                <select class="form-select" id="sectionCategoryFilter">
+                                    <option value="">All Categories</option>
+                                </select>
+                            </div>
+                            
+                            <!-- Bailable Filter -->
+                            <div class="col-md-3">
+                                <label class="form-label fw-bold">
+                                    <i class="fas fa-balance-scale me-2"></i>Bailable Status
+                                </label>
+                                <select class="form-select" id="sectionBailableFilter">
+                                    <option value="">All</option>
+                                    <option value="bailable">Bailable</option>
+                                    <option value="non-bailable">Non-Bailable</option>
+                                </select>
+                            </div>
+                            
+                            <!-- Action Buttons -->
+                            <div class="col-12">
+                                <button class="btn btn-primary" id="sectionsSearchBtn">
+                                    <i class="fas fa-search me-2"></i>Search
+                                </button>
+                                <button class="btn btn-secondary" id="sectionsResetBtn">
+                                    <i class="fas fa-redo me-2"></i>Reset
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Results Stats -->
+                <div class="alert alert-info" id="sectionsStats" style="display: none;">
+                    <i class="fas fa-info-circle me-2"></i>
+                    <span id="sectionsStatsText">Loading...</span>
+                </div>
+                
+                <!-- Loading Spinner -->
+                <div class="text-center py-5" id="sectionsLoading" style="display: none;">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p class="mt-3 text-muted">Loading sections...</p>
+                </div>
+                
+                <!-- Sections Grid -->
+                <div id="sectionsGrid" class="row g-3">
+                    <!-- Sections will be inserted here -->
+                </div>
+                
+            </div>
+        </div>
+        
+        <!-- Text Classification Page -->
+        <div id="page-text-classify" class="page-content" style="display: none;">
+            <div class="main-header">
+                <h1>Document Classification</h1>
+                <p>Enter legal text to classify into categories</p>
+            </div>
+            <div class="main-body">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="card">
+                            <div class="card-header bg-primary text-white">
+                                <h5 class="mb-0"><i class="fas fa-edit me-2"></i>Enter Legal Text</h5>
+                            </div>
+                            <div class="card-body">
+                                <form id="textClassifyForm">
+                                    <div class="mb-3">
+                                        <label for="legalTextInput" class="form-label fw-bold">Legal Document Text</label>
+                                        <textarea class="form-control" id="legalTextInput" rows="10" placeholder="Enter your legal text here for classification...
+
+Example: The appellant was convicted under Section 302 IPC for murder and sentenced to life imprisonment. The trial court found the appellant guilty based on circumstantial evidence. This criminal appeal challenges the conviction."></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary btn-lg w-100">
+                                        <i class="fas fa-search me-2"></i>Classify Text
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                        <div id="classificationResults" style="display: none;"></div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-header bg-info text-white">
+                                <h6 class="mb-0"><i class="fas fa-lightbulb me-2"></i>Sample Texts</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="d-grid gap-2">
+                                    <button class="btn btn-outline-secondary btn-sm" onclick="document.getElementById('legalTextInput').value='The petitioner seeks anticipatory bail in connection with FIR No. 123 under Section 438 of the CrPC.'">Criminal Case</button>
+                                    <button class="btn btn-outline-secondary btn-sm" onclick="document.getElementById('legalTextInput').value='This sale deed is executed on the 15th of September, transferring the title of the immovable property.'">Property Transfer</button>
+                                    <button class="btn btn-outline-secondary btn-sm" onclick="document.getElementById('legalTextInput').value='This agreement shall be governed by the laws of India and any breach of contract will be subject to arbitration.'">Contract Agreement</button>
+                                    <button class="btn btn-outline-secondary btn-sm" onclick="document.getElementById('legalTextInput').value='The fundamental right to equality under Article 14 of the Constitution has been violated.'">Constitutional Law</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- File Upload Page -->
+        <div id="page-file-upload" class="page-content" style="display: none;">
+            <div class="main-header">
+                <h1>File Upload</h1>
+                <p>Upload PDF or TXT files for classification</p>
+            </div>
+            <div class="main-body">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="card">
+                            <div class="card-header bg-success text-white">
+                                <h5 class="mb-0"><i class="fas fa-cloud-upload-alt me-2"></i>Upload Legal Document</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="upload-zone" id="uploadZoneArea">
+                                    <div class="upload-icon">
+                                        <i class="fas fa-cloud-upload-alt"></i>
+                                    </div>
+                                    <h5>Drag & Drop Files Here</h5>
+                                    <p class="text-muted">or click to browse</p>
+                                    <p class="small text-muted mb-0">
+                                        <i class="fas fa-info-circle"></i> Supported: PDF, TXT (Max 16MB)
+                                    </p>
+                                    <input type="file" id="fileInputUpload" accept=".pdf,.txt" style="display: none;">
+                                </div>
+                                <div id="uploadFileInfo" class="mt-3" style="display: none;"></div>
+                                <form id="fileUploadForm" class="mt-3">
+                                    <button type="submit" class="btn btn-success btn-lg w-100">
+                                        <i class="fas fa-cogs me-2"></i>Process Document
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-header bg-warning text-dark">
+                                <h6 class="mb-0"><i class="fas fa-info-circle me-2"></i>Supported Formats</h6>
+                            </div>
+                            <div class="card-body">
+                                <ul class="list-unstyled mb-0">
+                                    <li class="mb-2"><i class="fas fa-file-pdf text-danger me-2"></i>PDF Documents</li>
+                                    <li><i class="fas fa-file-alt text-primary me-2"></i>Text Files</li>
+                                </ul>
+                                <hr>
+                                <small class="text-muted">
+                                    <i class="fas fa-exclamation-triangle me-1"></i>Max file size: 16MB
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+<!-- Mobile Menu Toggle -->
+<button class="mobile-menu-toggle" id="mobileMenuToggle">
+    <i class="fas fa-bars"></i>
+</button>
+
+<!-- Loading Overlay -->
+<div id="loadingOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 9999; justify-content: center; align-items: center;">
+    <div class="text-center bg-white p-5 rounded shadow-lg">
+        <div class="spinner-border text-primary mb-3" role="status" style="width: 3rem; height: 3rem;">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <h5 class="text-dark">Processing...</h5>
+        <p class="text-muted mb-0">Please wait while we process your request</p>
+    </div>
+</div>
+
+<!-- Case Details Modal -->
+<div class="modal fade" id="caseDetailsModal" tabindex="-1" aria-labelledby="caseDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="caseDetailsModalLabel">Case Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="caseDetailsModalBody">
+                <!-- Case details will be inserted here -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Section Details Modal -->
+<div class="modal fade" id="sectionDetailsModal" tabindex="-1" aria-labelledby="sectionDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="sectionDetailsModalLabel">Section Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="sectionDetailsModalBody">
+                <!-- Section details will be inserted here -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+<script src="{{ url_for('static', filename='js/modern-ui.js') }}"></script>
+
+<script>
+// Dashboard Navigation
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('🎨 Professional Dashboard Loaded!');
+    
+    // Navigation handler
+    const navItems = document.querySelectorAll('.sidebar-nav-item, .quick-action-btn');
+    const pages = document.querySelectorAll('.page-content');
+    
+    navItems.forEach(item => {
+        item.addEventListener('click', function(e) {
+            e.preventDefault();
+            const pageName = this.getAttribute('data-page');
+            
+            if (pageName) {
+                // Hide all pages
+                pages.forEach(page => page.style.display = 'none');
+                
+                // Show selected page
+                const targetPage = document.getElementById('page-' + pageName);
+                if (targetPage) {
+                    targetPage.style.display = 'block';
+                }
+                
+                // Update active state in sidebar
+                document.querySelectorAll('.sidebar-nav-item').forEach(nav => {
+                    nav.classList.remove('active');
+                });
+                
+                const sidebarItem = document.querySelector(`.sidebar-nav-item[data-page="${pageName}"]`);
+                if (sidebarItem) {
+                    sidebarItem.classList.add('active');
+                }
+                
+                // Close mobile menu if open
+                document.getElementById('sidebar').classList.remove('open');
+            }
+        });
+    });
+    
+    // Mobile menu toggle
+    const mobileToggle = document.getElementById('mobileMenuToggle');
+    const sidebar = document.getElementById('sidebar');
+    
+    if (mobileToggle) {
+        mobileToggle.addEventListener('click', function() {
+            sidebar.classList.toggle('open');
+        });
+    }
+    
+    // Voice recording button
+    const voiceRecordBtn = document.getElementById('voiceRecordBtn');
+    if (voiceRecordBtn) {
+        voiceRecordBtn.addEventListener('click', function() {
+            this.classList.toggle('recording');
+            const status = document.querySelector('.voice-status');
+            if (this.classList.contains('recording')) {
+                status.textContent = '🔴 Recording...';
+                window.toast?.info('Voice recording started!');
+            } else {
+                status.textContent = 'Ready to Record';
+                window.toast?.success('Recording stopped!');
+            }
+        });
+    }
+    
+    // Language selection
+    const langButtons = document.querySelectorAll('.voice-lang-btn');
+    langButtons.forEach(btn => {
+        btn.addEventListener('click', function() {
+            langButtons.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+        });
+    });
+    
+    // Case Laws functionality
+    initializeCaseLaws();
+    
+    // Legal Sections functionality
+    initializeLegalSections();
+    
+    // Comprehensive Analytics functionality
+    initializeComprehensiveAnalytics();
+    
+    // AI Chatbot functionality
+    initializeAIChatbot();
+});
+
+// ====================================================================
+// COMPREHENSIVE ANALYTICS DASHBOARD
+// ====================================================================
+
+let analyticsCharts = {};
+
+function initializeComprehensiveAnalytics() {
+    // Load analytics when Analytics page is clicked
+    const analyticsNav = document.querySelector('[data-page="analytics"]');
+    if (analyticsNav) {
+        analyticsNav.addEventListener('click', function() {
+            // Load on first visit
+            if (!document.getElementById('analyticsContent').style.display || document.getElementById('analyticsContent').style.display === 'none') {
+                loadComprehensiveAnalytics();
+            }
+        });
+    }
+}
+
+function loadComprehensiveAnalytics() {
+    // Show loading
+    document.getElementById('analyticsLoading').style.display = 'block';
+    document.getElementById('analyticsContent').style.display = 'none';
+    
+    // Fetch comprehensive data
+    fetch('/api/analytics_comprehensive')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                displayComprehensiveAnalytics(data);
+            } else {
+                throw new Error(data.error || 'Failed to load analytics');
+            }
+        })
+        .catch(error => {
+            console.error('Error loading analytics:', error);
+            document.getElementById('analyticsLoading').innerHTML = `
+                <div class="alert alert-danger">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    Error loading analytics: ${error.message}
+                </div>
+            `;
+        });
+}
+
+function displayComprehensiveAnalytics(data) {
+    // Hide loading
+    document.getElementById('analyticsLoading').style.display = 'none';
+    document.getElementById('analyticsContent').style.display = 'block';
+    
+    // 1. Create stat cards
+    createAnalyticsStatCards(data.overview);
+    
+    // 2. Create category distribution chart
+    createCategoryDistributionChart(data.category_distribution);
+    
+    // 3. Create performance metrics chart
+    createPerformanceMetricsChart(data.classification_report);
+    
+    // 4. Create top/bottom performers
+    createTopBottomPerformers(data.top_performers, data.bottom_performers);
+    
+    // 5. Create confusion matrix
+    createConfusionMatrix(data.confusion_matrix);
+    
+    // 6. Create confidence distribution
+    createConfidenceDistribution(data.confidence_distribution);
+    
+    // 7. Create metrics table
+    createMetricsTable(data.classification_report);
+    
+    // 8. Create data insights
+    createDataInsights(data.data_insights, data.overview);
+}
+
+function createAnalyticsStatCards(overview) {
+    const container = document.getElementById('analyticsStatCards');
+    
+    const cards = [
+        {
+            title: 'Total Training Data',
+            value: overview.total_samples.toLocaleString(),
+            meta: 'Supreme Court documents',
+            icon: 'fa-database',
+            color: 'primary'
+        },
+        {
+            title: 'Model Accuracy',
+            value: (overview.accuracy * 100).toFixed(1) + '%',
+            meta: `${overview.test_samples} test samples`,
+            icon: 'fa-check-circle',
+            color: 'success'
+        },
+        {
+            title: 'Avg. Confidence',
+            value: overview.avg_confidence.toFixed(1) + '%',
+            meta: 'Prediction confidence',
+            icon: 'fa-chart-line',
+            color: 'warning'
+        },
+        {
+            title: 'Categories',
+            value: overview.categories_count,
+            meta: 'Legal categories',
+            icon: 'fa-layer-group',
+            color: 'info'
+        }
+    ];
+    
+    container.innerHTML = cards.map(card => `
+        <div class="col-md-3">
+            <div class="stat-card-dashboard">
+                <div class="stat-card-header">
+                    <span class="stat-card-title">${card.title}</span>
+                    <div class="stat-card-icon ${card.color}">
+                        <i class="fas ${card.icon}"></i>
+                    </div>
+                </div>
+                <div class="stat-card-value">${card.value}</div>
+                <div class="stat-card-meta">${card.meta}</div>
+            </div>
+        </div>
+    `).join('');
+}
+
+function createCategoryDistributionChart(categories) {
+    const ctx = document.getElementById('categoryDistChart');
+    
+    // Destroy existing chart if any
+    if (analyticsCharts.categoryDist) {
+        analyticsCharts.categoryDist.destroy();
+    }
+    
+    const labels = Object.keys(categories);
+    const values = Object.values(categories);
+    
+    const colors = [
+        '#ef4444', '#10b981', '#f59e0b', '#8b5cf6',
+        '#06b6d4', '#eab308', '#3b82f6', '#ec4899', '#6366f1'
+    ];
+    
+    analyticsCharts.categoryDist = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: labels,
+            datasets: [{
+                data: values,
+                backgroundColor: colors,
+                borderWidth: 2,
+                borderColor: '#fff'
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        padding: 15,
+                        font: { size: 11 }
+                    }
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                            const percentage = ((context.parsed / total) * 100).toFixed(1);
+                            return `${context.label}: ${context.parsed.toLocaleString()} (${percentage}%)`;
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
+
+function createPerformanceMetricsChart(classificationReport) {
+    const ctx = document.getElementById('performanceMetricsChart');
+    
+    // Destroy existing chart if any
+    if (analyticsCharts.performance) {
+        analyticsCharts.performance.destroy();
+    }
+    
+    const categories = Object.keys(classificationReport);
+    const precision = categories.map(cat => (classificationReport[cat].precision * 100).toFixed(1));
+    const recall = categories.map(cat => (classificationReport[cat].recall * 100).toFixed(1));
+    const f1Score = categories.map(cat => (classificationReport[cat]['f1-score'] * 100).toFixed(1));
+    
+    analyticsCharts.performance = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: categories,
+            datasets: [
+                {
+                    label: 'Precision',
+                    data: precision,
+                    backgroundColor: 'rgba(59, 130, 246, 0.7)',
+                    borderColor: 'rgb(59, 130, 246)',
+                    borderWidth: 1
+                },
+                {
+                    label: 'Recall',
+                    data: recall,
+                    backgroundColor: 'rgba(16, 185, 129, 0.7)',
+                    borderColor: 'rgb(16, 185, 129)',
+                    borderWidth: 1
+                },
+                {
+                    label: 'F1-Score',
+                    data: f1Score,
+                    backgroundColor: 'rgba(245, 158, 11, 0.7)',
+                    borderColor: 'rgb(245, 158, 11)',
+                    borderWidth: 1
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 100,
+                    ticks: {
+                        callback: function(value) {
+                            return value + '%';
+                        }
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    position: 'top'
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return `${context.dataset.label}: ${context.parsed.y}%`;
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
+
+function createTopBottomPerformers(topPerformers, bottomPerformers) {
+    // Top performers
+    const topContent = document.getElementById('topPerformersContent');
+    topContent.innerHTML = topPerformers.map((item, idx) => `
+        <div class="d-flex justify-content-between align-items-center mb-3 p-3 bg-light rounded">
+            <div>
+                <h6 class="mb-1">
+                    <span class="badge bg-success me-2">${idx + 1}</span>
+                    ${escapeHtml(item.category)}
+                </h6>
+                <div class="progress" style="width: 200px; height: 20px;">
+                    <div class="progress-bar bg-success" role="progressbar" style="width: ${(item.f1_score * 100).toFixed(0)}%">
+                        ${(item.f1_score * 100).toFixed(1)}%
+                    </div>
+                </div>
+            </div>
+            <div>
+                <i class="fas fa-trophy text-success" style="font-size: 24px;"></i>
+            </div>
+        </div>
+    `).join('');
+    
+    // Bottom performers
+    const bottomContent = document.getElementById('bottomPerformersContent');
+    bottomContent.innerHTML = bottomPerformers.map((item, idx) => `
+        <div class="d-flex justify-content-between align-items-center mb-3 p-3 bg-light rounded">
+            <div>
+                <h6 class="mb-1">
+                    <span class="badge bg-warning text-dark me-2">${idx + 1}</span>
+                    ${escapeHtml(item.category)}
+                </h6>
+                <div class="progress" style="width: 200px; height: 20px;">
+                    <div class="progress-bar ${item.f1_score > 0.6 ? 'bg-warning' : 'bg-danger'}" role="progressbar" style="width: ${(item.f1_score * 100).toFixed(0)}%">
+                        ${(item.f1_score * 100).toFixed(1)}%
+                    </div>
+                </div>
+            </div>
+            <div>
+                <i class="fas fa-exclamation-triangle text-warning" style="font-size: 24px;"></i>
+            </div>
+        </div>
+    `).join('');
+}
+
+function createConfusionMatrix(confusionMatrix) {
+    const ctx = document.getElementById('confusionMatrixChart');
+    
+    // Destroy existing chart if any
+    if (analyticsCharts.confusion) {
+        analyticsCharts.confusion.destroy();
+    }
+    
+    const labels = confusionMatrix.labels;
+    const data = confusionMatrix.data;
+    
+    // Flatten data for Chart.js matrix (using bar chart with custom styling)
+    // We'll create a simpler heatmap visualization
+    const datasets = labels.map((label, i) => ({
+        label: label,
+        data: data[i],
+        backgroundColor: data[i].map((val, j) => {
+            if (i === j) {
+                // Diagonal - correct predictions (green shades)
+                const intensity = val / Math.max(...data[i]);
+                return `rgba(16, 185, 129, ${0.3 + intensity * 0.7})`;
+            } else {
+                // Off-diagonal - errors (red shades)
+                const maxVal = Math.max(...data[i]);
+                const intensity = val / maxVal;
+                return `rgba(239, 68, 68, ${intensity * 0.5})`;
+            }
+        })
+    }));
+    
+    analyticsCharts.confusion = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels.map(l => l.substring(0, 15)), // Shorten labels
+            datasets: [datasets[0]] // Show first category as example
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false },
+                title: {
+                    display: true,
+                    text: 'Simplified Confusion Matrix View'
+                }
+            },
+            scales: {
+                y: { beginAtZero: true }
+            }
+        }
+    });
+}
+
+function createConfidenceDistribution(confidenceDist) {
+    const ctx = document.getElementById('confidenceDistChart');
+    
+    // Destroy existing chart if any
+    if (analyticsCharts.confidence) {
+        analyticsCharts.confidence.destroy();
+    }
+    
+    const labels = Object.keys(confidenceDist);
+    const values = Object.values(confidenceDist);
+    
+    analyticsCharts.confidence = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Number of Predictions',
+                data: values,
+                backgroundColor: [
+                    'rgba(239, 68, 68, 0.7)',
+                    'rgba(245, 158, 11, 0.7)',
+                    'rgba(234, 179, 8, 0.7)',
+                    'rgba(132, 204, 22, 0.7)',
+                    'rgba(34, 197, 94, 0.7)'
+                ],
+                borderColor: [
+                    'rgb(239, 68, 68)',
+                    'rgb(245, 158, 11)',
+                    'rgb(234, 179, 8)',
+                    'rgb(132, 204, 22)',
+                    'rgb(34, 197, 94)'
+                ],
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                            const percentage = ((context.parsed.y / total) * 100).toFixed(1);
+                            return `${context.parsed.y} predictions (${percentage}%)`;
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Number of Predictions'
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Confidence Range'
+                    }
+                }
+            }
+        }
+    });
+}
+
+function createMetricsTable(classificationReport) {
+    const tbody = document.getElementById('metricsTableBody');
+    
+    const rows = Object.entries(classificationReport).map(([category, metrics]) => {
+        const f1Score = metrics['f1-score'];
+        let statusBadge = '';
+        let statusText = '';
+        
+        if (f1Score >= 0.8) {
+            statusBadge = 'bg-success';
+            statusText = 'Excellent';
+        } else if (f1Score >= 0.7) {
+            statusBadge = 'bg-info';
+            statusText = 'Good';
+        } else if (f1Score >= 0.6) {
+            statusBadge = 'bg-warning text-dark';
+            statusText = 'Fair';
+        } else {
+            statusBadge = 'bg-danger';
+            statusText = 'Needs Work';
+        }
+        
+        return `
+            <tr>
+                <td class="fw-bold">${escapeHtml(category)}</td>
+                <td>${(metrics.precision * 100).toFixed(1)}%</td>
+                <td>${(metrics.recall * 100).toFixed(1)}%</td>
+                <td><strong>${(f1Score * 100).toFixed(1)}%</strong></td>
+                <td>${metrics.support}</td>
+                <td><span class="badge ${statusBadge}">${statusText}</span></td>
+            </tr>
+        `;
+    }).join('');
+    
+    tbody.innerHTML = rows;
+}
+
+function createDataInsights(dataInsights, overview) {
+    const container = document.getElementById('dataInsightsContent');
+    
+    const insights = [
+        {
+            icon: 'fa-database',
+            title: 'Training Set',
+            value: dataInsights.training_set_size.toLocaleString(),
+            description: '70% of total data'
+        },
+        {
+            icon: 'fa-check-double',
+            title: 'Validation Set',
+            value: dataInsights.validation_set_size.toLocaleString(),
+            description: '15% of total data'
+        },
+        {
+            icon: 'fa-flask',
+            title: 'Test Set',
+            value: dataInsights.test_set_size.toLocaleString(),
+            description: '15% of total data'
+        },
+        {
+            icon: 'fa-calendar-alt',
+            title: 'Time Coverage',
+            value: dataInsights.years_covered,
+            description: '25 years of cases'
+        },
+        {
+            icon: 'fa-balance-scale',
+            title: 'Data Balance',
+            value: dataInsights.data_balance_score + '/100',
+            description: 'Well balanced'
+        },
+        {
+            icon: 'fa-chart-pie',
+            title: 'Most Common',
+            value: overview.most_common_category.substring(0, 20),
+            description: 'Category'
+        }
+    ];
+    
+    container.innerHTML = insights.map(insight => `
+        <div class="col-md-4 col-lg-2 mb-3">
+            <div class="text-center p-3 bg-light rounded">
+                <i class="fas ${insight.icon} fa-2x text-primary mb-2"></i>
+                <h6 class="mb-1">${insight.title}</h6>
+                <h5 class="mb-1 text-primary">${insight.value}</h5>
+                <small class="text-muted">${insight.description}</small>
+            </div>
+        </div>
+    `).join('');
+}
+
+// ====================================================================
+// AI CHATBOT FUNCTIONALITY
+// ====================================================================
+
+let chatHistory = [];
+let chatSessionStart = null;
+let chatMessageCount = 1; // Start with 1 for welcome message
+
+function initializeAIChatbot() {
+    chatSessionStart = Date.now();
+    
+    // Send Chat Button
+    document.getElementById('sendChatBtn').addEventListener('click', sendChatMessage);
+    
+    // Enter key to send
+    document.getElementById('chatInput').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            sendChatMessage();
+        }
+    });
+    
+    // Voice Chat Button
+    document.getElementById('voiceChatBtn').addEventListener('click', startVoiceChat);
+    
+    // Clear Chat Button
+    document.getElementById('clearChatBtn').addEventListener('click', clearChat);
+    
+    // Export Chat Button
+    document.getElementById('exportChatBtn').addEventListener('click', exportChat);
+    
+    // Quick Action Buttons
+    document.querySelectorAll('.quick-action-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const action = this.getAttribute('data-action');
+            handleQuickAction(action);
+        });
+    });
+    
+    // Sample Queries
+    document.querySelectorAll('.sample-query').forEach(item => {
+        item.addEventListener('click', function() {
+            const query = this.getAttribute('data-query');
+            document.getElementById('chatInput').value = query;
+            sendChatMessage();
+        });
+    });
+    
+    // Language Change
+    document.getElementById('chatLanguageSelect').addEventListener('change', function() {
+        const langCode = this.value;
+        const langNames = {
+            'en': 'English', 'hi': 'Hindi', 'mr': 'Marathi', 'ta': 'Tamil',
+            'te': 'Telugu', 'bn': 'Bengali', 'gu': 'Gujarati', 'kn': 'Kannada',
+            'ml': 'Malayalam', 'pa': 'Punjabi'
+        };
+        document.getElementById('chatLanguageName').textContent = langNames[langCode] || 'English';
+    });
+    
+    // Update session time every second
+    setInterval(updateSessionTime, 1000);
+}
+
+function sendChatMessage() {
+    const input = document.getElementById('chatInput');
+    const message = input.value.trim();
+    
+    if (!message) return;
+    
+    const language = document.getElementById('chatLanguageSelect').value;
+    
+    // Add user message to chat
+    addChatMessage(message, 'user');
+    
+    // Clear input
+    input.value = '';
+    
+    // Show typing indicator
+    showTypingIndicator();
+    
+    // Send to backend
+    fetch('/api/chat/send', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            message: message,
+            language: language,
+            history: chatHistory
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        hideTypingIndicator();
+        
+        if (data.success) {
+            // Add bot response
+            addChatMessage(data.response, 'bot');
+            
+            // Update chat history
+            chatHistory.push({role: 'user', content: message});
+            chatHistory.push({role: 'assistant', content: data.response});
+        } else {
+            addChatMessage('Sorry, I encountered an error: ' + (data.error || 'Unknown error'), 'bot');
+        }
+    })
+    .catch(error => {
+        hideTypingIndicator();
+        console.error('Chat error:', error);
+        addChatMessage('Sorry, I\'m having trouble connecting. Please try again.', 'bot');
+    });
+}
+
+function addChatMessage(message, type) {
+    const chatMessages = document.getElementById('chatMessages');
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `chat-message ${type}-message`;
+    
+    const time = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+    
+    if (type === 'bot') {
+        messageDiv.innerHTML = `
+            <div class="chat-message-avatar">
+                <i class="fas fa-robot"></i>
+            </div>
+            <div class="chat-message-content">
+                <div class="chat-message-bubble bot">
+                    ${formatMessage(message)}
+                </div>
+                <div class="chat-message-time">${time}</div>
+            </div>
+        `;
+    } else {
+        messageDiv.innerHTML = `
+            <div class="chat-message-avatar">
+                <i class="fas fa-user"></i>
+            </div>
+            <div class="chat-message-content">
+                <div class="chat-message-bubble user">
+                    ${escapeHtml(message)}
+                </div>
+                <div class="chat-message-time">${time}</div>
+            </div>
+        `;
+    }
+    
+    chatMessages.appendChild(messageDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+    
+    // Update message count
+    chatMessageCount++;
+    document.getElementById('chatMessageCount').textContent = chatMessageCount;
+}
+
+function formatMessage(message) {
+    // Convert markdown-style formatting to HTML
+    message = escapeHtml(message);
+    
+    // Bold: **text** -> <strong>text</strong>
+    message = message.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    
+    // Lists: - item -> <li>item</li>
+    message = message.replace(/^- (.+)$/gm, '<li>$1</li>');
+    message = message.replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>');
+    
+    // Line breaks
+    message = message.replace(/\n/g, '<br>');
+    
+    return message;
+}
+
+function showTypingIndicator() {
+    const chatMessages = document.getElementById('chatMessages');
+    const typingDiv = document.createElement('div');
+    typingDiv.id = 'typingIndicator';
+    typingDiv.className = 'chat-message bot-message';
+    typingDiv.innerHTML = `
+        <div class="chat-message-avatar">
+            <i class="fas fa-robot"></i>
+        </div>
+        <div class="chat-message-content">
+            <div class="chat-message-bubble bot">
+                <div class="typing-indicator">
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                </div>
+            </div>
+        </div>
+    `;
+    chatMessages.appendChild(typingDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+function hideTypingIndicator() {
+    const typingIndicator = document.getElementById('typingIndicator');
+    if (typingIndicator) {
+        typingIndicator.remove();
+    }
+}
+
+// Voice Recognition Setup
+let voiceRecognition = null;
+let isRecording = false;
+
+function initVoiceRecognition() {
+    // Check if browser supports Web Speech API
+    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        voiceRecognition = new SpeechRecognition();
+        
+        // Get selected language
+        const langCode = document.getElementById('chatLanguageSelect').value;
+        
+        // Map language codes to Speech API format
+        const langMap = {
+            'hi': 'hi-IN',
+            'en': 'en-US',
+            'mr': 'mr-IN',
+            'ta': 'ta-IN',
+            'te': 'te-IN',
+            'bn': 'bn-IN',
+            'gu': 'gu-IN',
+            'kn': 'kn-IN',
+            'ml': 'ml-IN',
+            'pa': 'pa-IN'
+        };
+        
+        voiceRecognition.lang = langMap[langCode] || 'hi-IN';
+        voiceRecognition.continuous = false;
+        voiceRecognition.interimResults = false;
+        
+        return true;
+    }
+    return false;
+}
+
+function startVoiceChat() {
+    const voiceBtn = document.getElementById('voiceChatBtn');
+    
+    if (isRecording) {
+        // Stop recording
+        if (voiceRecognition) {
+            voiceRecognition.stop();
+        }
+        isRecording = false;
+        voiceBtn.innerHTML = '<i class="fas fa-microphone"></i>';
+        voiceBtn.classList.remove('btn-danger');
+        voiceBtn.classList.add('btn-outline-secondary');
+        return;
+    }
+    
+    // Check browser support
+    if (!initVoiceRecognition()) {
+        alert('Voice input is not supported in your browser. Please use Chrome, Edge, or Safari.');
+        return;
+    }
+    
+    // Start recording
+    isRecording = true;
+    voiceBtn.innerHTML = '<i class="fas fa-stop-circle"></i> Recording...';
+    voiceBtn.classList.remove('btn-outline-secondary');
+    voiceBtn.classList.add('btn-danger');
+    
+    // Handle results
+    voiceRecognition.onresult = function(event) {
+        const transcript = event.results[0][0].transcript;
+        const confidence = event.results[0][0].confidence;
+        
+        console.log('Voice recognized:', transcript, 'Confidence:', confidence);
+        
+        // Put transcript in input box
+        document.getElementById('chatInput').value = transcript;
+        
+        // Auto-send if confidence is high
+        if (confidence > 0.7) {
+            setTimeout(() => {
+                sendChatMessage();
+            }, 500);
+        }
+    };
+    
+    // Handle errors
+    voiceRecognition.onerror = function(event) {
+        console.error('Voice recognition error:', event.error);
+        isRecording = false;
+        voiceBtn.innerHTML = '<i class="fas fa-microphone"></i>';
+        voiceBtn.classList.remove('btn-danger');
+        voiceBtn.classList.add('btn-outline-secondary');
+        
+        if (event.error === 'no-speech') {
+            alert('No speech detected. Please try again.');
+        } else if (event.error === 'network') {
+            alert('Network error. Please check your internet connection.');
+        } else {
+            alert('Voice recognition error: ' + event.error);
+        }
+    };
+    
+    // Handle end
+    voiceRecognition.onend = function() {
+        isRecording = false;
+        voiceBtn.innerHTML = '<i class="fas fa-microphone"></i>';
+        voiceBtn.classList.remove('btn-danger');
+        voiceBtn.classList.add('btn-outline-secondary');
+    };
+    
+    // Start recognition
+    try {
+        voiceRecognition.start();
+    } catch (error) {
+        console.error('Error starting voice recognition:', error);
+        isRecording = false;
+        voiceBtn.innerHTML = '<i class="fas fa-microphone"></i>';
+        voiceBtn.classList.remove('btn-danger');
+        voiceBtn.classList.add('btn-outline-secondary');
+        alert('Could not start voice input. Please try again.');
+    }
+}
+
+function clearChat() {
+    if (confirm('Are you sure you want to clear the chat history?')) {
+        const chatMessages = document.getElementById('chatMessages');
+        chatMessages.innerHTML = `
+            <div class="chat-message bot-message">
+                <div class="chat-message-avatar">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="chat-message-content">
+                    <div class="chat-message-bubble bot">
+                        <p class="mb-0"><strong>Chat cleared. How can I assist you?</strong></p>
+                    </div>
+                    <div class="chat-message-time">Just now</div>
+                </div>
+            </div>
+        `;
+        chatHistory = [];
+        chatMessageCount = 1;
+        document.getElementById('chatMessageCount').textContent = chatMessageCount;
+    }
+}
+
+function exportChat() {
+    let chatText = '=== NyayaMitra AI Chat Export ===\n\n';
+    chatText += `Date: ${new Date().toLocaleString()}\n`;
+    chatText += `Language: ${document.getElementById('chatLanguageName').textContent}\n`;
+    chatText += `Messages: ${chatMessageCount}\n`;
+    chatText += '\n--- Conversation ---\n\n';
+    
+    const messages = document.querySelectorAll('.chat-message');
+    messages.forEach(msg => {
+        const isBot = msg.classList.contains('bot-message');
+        const text = msg.querySelector('.chat-message-bubble').textContent.trim();
+        const time = msg.querySelector('.chat-message-time').textContent;
+        
+        chatText += `[${time}] ${isBot ? 'NyayaMitra AI' : 'You'}: ${text}\n\n`;
+    });
+    
+    // Download as text file
+    const blob = new Blob([chatText], { type: 'text/plain' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `nyayamitra-chat-${Date.now()}.txt`;
+    a.click();
+    window.URL.revokeObjectURL(url);
+}
+
+function handleQuickAction(action) {
+    const prompts = {
+        'fir': 'I need help generating an FIR. Please guide me through the process.',
+        'ipc': 'Can you help me find relevant IPC sections for an incident?',
+        'case': 'I want to search for case laws. How can I do that?',
+        'advice': 'I need legal advice regarding an incident. Can you help?'
+    };
+    
+    if (prompts[action]) {
+        document.getElementById('chatInput').value = prompts[action];
+        sendChatMessage();
+    }
+}
+
+function updateSessionTime() {
+    if (!chatSessionStart) return;
+    
+    const elapsed = Math.floor((Date.now() - chatSessionStart) / 1000);
+    const minutes = Math.floor(elapsed / 60);
+    const seconds = elapsed % 60;
+    
+    document.getElementById('chatSessionTime').textContent = `${minutes}m ${seconds}s`;
+}
+
+// ====================================================================
+// CASE LAWS DATABASE VIEWER
+// ====================================================================
+
+let currentCaseLawsPage = 1;
+let caseLawsFilters = {
+    search: '',
+    category: '',
+    year_from: '',
+    year_to: ''
+};
+
+function initializeCaseLaws() {
+    // Load case laws when Case Laws page is clicked
+    const caseLawsNav = document.querySelector('[data-page="case-laws"]');
+    if (caseLawsNav) {
+        caseLawsNav.addEventListener('click', function() {
+            // Load on first visit
+            if (document.getElementById('caseLawsGrid').children.length === 0) {
+                loadCaseLaws(1);
+            }
+        });
+    }
+    
+    // Search button
+    const searchBtn = document.getElementById('caseLawsSearchBtn');
+    if (searchBtn) {
+        searchBtn.addEventListener('click', function() {
+            caseLawsFilters.search = document.getElementById('caseSearchInput').value;
+            caseLawsFilters.category = document.getElementById('caseCategoryFilter').value;
+            caseLawsFilters.year_from = document.getElementById('caseYearFrom').value;
+            caseLawsFilters.year_to = document.getElementById('caseYearTo').value;
+            loadCaseLaws(1);
+        });
+    }
+    
+    // Reset button
+    const resetBtn = document.getElementById('caseLawsResetBtn');
+    if (resetBtn) {
+        resetBtn.addEventListener('click', function() {
+            document.getElementById('caseSearchInput').value = '';
+            document.getElementById('caseCategoryFilter').value = '';
+            document.getElementById('caseYearFrom').value = '';
+            document.getElementById('caseYearTo').value = '';
+            caseLawsFilters = {search: '', category: '', year_from: '', year_to: ''};
+            loadCaseLaws(1);
+        });
+    }
+    
+    // Enter key on search
+    const searchInput = document.getElementById('caseSearchInput');
+    if (searchInput) {
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                document.getElementById('caseLawsSearchBtn').click();
+            }
+        });
+    }
+}
+
+function loadCaseLaws(page = 1) {
+    currentCaseLawsPage = page;
+    
+    // Show loading
+    document.getElementById('caseLawsLoading').style.display = 'block';
+    document.getElementById('caseLawsGrid').style.display = 'none';
+    document.getElementById('caseLawsPagination').style.display = 'none';
+    document.getElementById('caseLawsStats').style.display = 'none';
+    
+    // Build query params
+    const params = new URLSearchParams({
+        page: page,
+        per_page: 25
+    });
+    
+    if (caseLawsFilters.search) params.append('search', caseLawsFilters.search);
+    if (caseLawsFilters.category) params.append('category', caseLawsFilters.category);
+    if (caseLawsFilters.year_from) params.append('year_from', caseLawsFilters.year_from);
+    if (caseLawsFilters.year_to) params.append('year_to', caseLawsFilters.year_to);
+    
+    // Fetch data
+    fetch(`/api/case_laws?${params.toString()}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                displayCaseLaws(data);
+            } else {
+                throw new Error(data.error || 'Failed to load case laws');
+            }
+        })
+        .catch(error => {
+            console.error('Error loading case laws:', error);
+            document.getElementById('caseLawsLoading').style.display = 'none';
+            document.getElementById('caseLawsGrid').innerHTML = `
+                <div class="col-12">
+                    <div class="alert alert-danger">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        Error loading case laws: ${error.message}
+                    </div>
+                </div>
+            `;
+            document.getElementById('caseLawsGrid').style.display = 'block';
+        });
+}
+
+function displayCaseLaws(data) {
+    // Hide loading
+    document.getElementById('caseLawsLoading').style.display = 'none';
+    
+    // Update stats
+    const statsText = `Showing ${data.cases.length} of ${data.pagination.total_cases.toLocaleString()} cases (Page ${data.pagination.page} of ${data.pagination.total_pages})`;
+    document.getElementById('caseLawsStatsText').textContent = statsText;
+    document.getElementById('caseLawsStats').style.display = 'block';
+    
+    // Populate category filter if empty
+    const categoryFilter = document.getElementById('caseCategoryFilter');
+    if (categoryFilter.options.length === 1 && data.filters.categories) {
+        data.filters.categories.forEach(cat => {
+            const option = document.createElement('option');
+            option.value = cat;
+            option.textContent = cat;
+            categoryFilter.appendChild(option);
+        });
+    }
+    
+    // Display cases
+    const grid = document.getElementById('caseLawsGrid');
+    grid.innerHTML = '';
+    
+    if (data.cases.length === 0) {
+        grid.innerHTML = `
+            <div class="col-12">
+                <div class="alert alert-warning">
+                    <i class="fas fa-info-circle me-2"></i>
+                    No cases found matching your search criteria.
+                </div>
+            </div>
+        `;
+    } else {
+        data.cases.forEach(caseData => {
+            const caseCard = createCaseCard(caseData);
+            grid.appendChild(caseCard);
+        });
+    }
+    
+    grid.style.display = 'flex';
+    
+    // Display pagination
+    displayCaseLawsPagination(data.pagination);
+}
+
+function createCaseCard(caseData) {
+    const col = document.createElement('div');
+    col.className = 'col-md-6 col-lg-4';
+    
+    const yearBadge = caseData.year ? 
+        `<span class="badge bg-primary">${caseData.year}</span>` : 
+        '<span class="badge bg-secondary">Year N/A</span>';
+    
+    col.innerHTML = `
+        <div class="card h-100 hover-shadow" style="cursor: pointer; transition: all 0.3s;" onclick='showCaseDetails(${JSON.stringify(caseData)})'>
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                    <h6 class="card-title mb-0">
+                        <i class="fas fa-file-pdf text-danger me-2"></i>
+                        ${escapeHtml(caseData.filename.substring(0, 50))}${caseData.filename.length > 50 ? '...' : ''}
+                    </h6>
+                    ${yearBadge}
+                </div>
+                <p class="card-text small text-muted mb-3" style="max-height: 100px; overflow: hidden;">
+                    ${escapeHtml(caseData.text_preview)}
+                </p>
+                <div class="d-flex justify-content-between align-items-center">
+                    <span class="badge bg-info">${escapeHtml(caseData.category)}</span>
+                    <small class="text-primary">
+                        <i class="fas fa-eye me-1"></i>View Details
+                    </small>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    return col;
+}
+
+function displayCaseLawsPagination(pagination) {
+    const paginationList = document.getElementById('caseLawsPaginationList');
+    paginationList.innerHTML = '';
+    
+    // Previous button
+    const prevLi = document.createElement('li');
+    prevLi.className = `page-item ${!pagination.has_prev ? 'disabled' : ''}`;
+    prevLi.innerHTML = `<a class="page-link" href="#" onclick="loadCaseLaws(${pagination.page - 1}); return false;">Previous</a>`;
+    paginationList.appendChild(prevLi);
+    
+    // Page numbers (show max 5 pages)
+    const maxPages = 5;
+    let startPage = Math.max(1, pagination.page - Math.floor(maxPages / 2));
+    let endPage = Math.min(pagination.total_pages, startPage + maxPages - 1);
+    
+    if (endPage - startPage < maxPages - 1) {
+        startPage = Math.max(1, endPage - maxPages + 1);
+    }
+    
+    if (startPage > 1) {
+        const firstLi = document.createElement('li');
+        firstLi.className = 'page-item';
+        firstLi.innerHTML = `<a class="page-link" href="#" onclick="loadCaseLaws(1); return false;">1</a>`;
+        paginationList.appendChild(firstLi);
+        
+        if (startPage > 2) {
+            const dotsLi = document.createElement('li');
+            dotsLi.className = 'page-item disabled';
+            dotsLi.innerHTML = '<span class="page-link">...</span>';
+            paginationList.appendChild(dotsLi);
+        }
+    }
+    
+    for (let i = startPage; i <= endPage; i++) {
+        const pageLi = document.createElement('li');
+        pageLi.className = `page-item ${i === pagination.page ? 'active' : ''}`;
+        pageLi.innerHTML = `<a class="page-link" href="#" onclick="loadCaseLaws(${i}); return false;">${i}</a>`;
+        paginationList.appendChild(pageLi);
+    }
+    
+    if (endPage < pagination.total_pages) {
+        if (endPage < pagination.total_pages - 1) {
+            const dotsLi = document.createElement('li');
+            dotsLi.className = 'page-item disabled';
+            dotsLi.innerHTML = '<span class="page-link">...</span>';
+            paginationList.appendChild(dotsLi);
+        }
+        
+        const lastLi = document.createElement('li');
+        lastLi.className = 'page-item';
+        lastLi.innerHTML = `<a class="page-link" href="#" onclick="loadCaseLaws(${pagination.total_pages}); return false;">${pagination.total_pages}</a>`;
+        paginationList.appendChild(lastLi);
+    }
+    
+    // Next button
+    const nextLi = document.createElement('li');
+    nextLi.className = `page-item ${!pagination.has_next ? 'disabled' : ''}`;
+    nextLi.innerHTML = `<a class="page-link" href="#" onclick="loadCaseLaws(${pagination.page + 1}); return false;">Next</a>`;
+    paginationList.appendChild(nextLi);
+    
+    document.getElementById('caseLawsPagination').style.display = 'block';
+}
+
+function showCaseDetails(caseData) {
+    const modalBody = document.getElementById('caseDetailsModalBody');
+    
+    const yearBadge = caseData.year ? 
+        `<span class="badge bg-primary">${caseData.year}</span>` : 
+        '<span class="badge bg-secondary">Year N/A</span>';
+    
+    modalBody.innerHTML = `
+        <div class="mb-3">
+            <h5 class="mb-2">
+                <i class="fas fa-file-pdf text-danger me-2"></i>
+                ${escapeHtml(caseData.filename)}
+            </h5>
+            <div class="d-flex gap-2 mb-3">
+                ${yearBadge}
+                <span class="badge bg-info">${escapeHtml(caseData.category)}</span>
+            </div>
+        </div>
+        
+        <div class="mb-3">
+            <h6 class="fw-bold">Full Case Text:</h6>
+            <div class="border rounded p-3 bg-light" style="max-height: 500px; overflow-y: auto; white-space: pre-wrap;">
+                ${escapeHtml(caseData.full_text)}
+            </div>
+        </div>
+    `;
+    
+    // Show modal
+    const modal = new bootstrap.Modal(document.getElementById('caseDetailsModal'));
+    modal.show();
+}
+
+// ====================================================================
+// LEGAL SECTIONS DATABASE VIEWER
+// ====================================================================
+
+let legalSectionsFilters = {
+    search: '',
+    category: '',
+    bailable: ''
+};
+
+function initializeLegalSections() {
+    // Load sections when Legal Sections page is clicked
+    const sectionsNav = document.querySelector('[data-page="legal-sections"]');
+    if (sectionsNav) {
+        sectionsNav.addEventListener('click', function() {
+            // Load on first visit
+            if (document.getElementById('sectionsGrid').children.length === 0) {
+                loadLegalSections();
+            }
+        });
+    }
+    
+    // Search button
+    const searchBtn = document.getElementById('sectionsSearchBtn');
+    if (searchBtn) {
+        searchBtn.addEventListener('click', function() {
+            legalSectionsFilters.search = document.getElementById('sectionSearchInput').value;
+            legalSectionsFilters.category = document.getElementById('sectionCategoryFilter').value;
+            legalSectionsFilters.bailable = document.getElementById('sectionBailableFilter').value;
+            loadLegalSections();
+        });
+    }
+    
+    // Reset button
+    const resetBtn = document.getElementById('sectionsResetBtn');
+    if (resetBtn) {
+        resetBtn.addEventListener('click', function() {
+            document.getElementById('sectionSearchInput').value = '';
+            document.getElementById('sectionCategoryFilter').value = '';
+            document.getElementById('sectionBailableFilter').value = '';
+            legalSectionsFilters = {search: '', category: '', bailable: ''};
+            loadLegalSections();
+        });
+    }
+    
+    // Enter key on search
+    const searchInput = document.getElementById('sectionSearchInput');
+    if (searchInput) {
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                document.getElementById('sectionsSearchBtn').click();
+            }
+        });
+    }
+}
+
+function loadLegalSections() {
+    // Show loading
+    document.getElementById('sectionsLoading').style.display = 'block';
+    document.getElementById('sectionsGrid').style.display = 'none';
+    document.getElementById('sectionsStats').style.display = 'none';
+    
+    // Build query params
+    const params = new URLSearchParams();
+    
+    if (legalSectionsFilters.search) params.append('search', legalSectionsFilters.search);
+    if (legalSectionsFilters.category) params.append('category', legalSectionsFilters.category);
+    if (legalSectionsFilters.bailable) params.append('bailable', legalSectionsFilters.bailable);
+    
+    // Fetch data
+    fetch(`/api/legal_sections?${params.toString()}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                displayLegalSections(data);
+            } else {
+                throw new Error(data.error || 'Failed to load legal sections');
+            }
+        })
+        .catch(error => {
+            console.error('Error loading legal sections:', error);
+            document.getElementById('sectionsLoading').style.display = 'none';
+            document.getElementById('sectionsGrid').innerHTML = `
+                <div class="col-12">
+                    <div class="alert alert-danger">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        Error loading legal sections: ${error.message}
+                    </div>
+                </div>
+            `;
+            document.getElementById('sectionsGrid').style.display = 'block';
+        });
+}
+
+function displayLegalSections(data) {
+    // Hide loading
+    document.getElementById('sectionsLoading').style.display = 'none';
+    
+    // Update stats
+    const statsText = `Showing ${data.total_sections} IPC sections`;
+    document.getElementById('sectionsStatsText').textContent = statsText;
+    document.getElementById('sectionsStats').style.display = 'block';
+    
+    // Populate category filter if empty
+    const categoryFilter = document.getElementById('sectionCategoryFilter');
+    if (categoryFilter.options.length === 1 && data.filters.categories) {
+        data.filters.categories.forEach(cat => {
+            const option = document.createElement('option');
+            option.value = cat;
+            option.textContent = cat;
+            categoryFilter.appendChild(option);
+        });
+    }
+    
+    // Display sections
+    const grid = document.getElementById('sectionsGrid');
+    grid.innerHTML = '';
+    
+    if (data.sections.length === 0) {
+        grid.innerHTML = `
+            <div class="col-12">
+                <div class="alert alert-warning">
+                    <i class="fas fa-info-circle me-2"></i>
+                    No sections found matching your search criteria.
+                </div>
+            </div>
+        `;
+    } else {
+        data.sections.forEach(section => {
+            const sectionCard = createSectionCard(section);
+            grid.appendChild(sectionCard);
+        });
+    }
+    
+    grid.style.display = 'flex';
+}
+
+function createSectionCard(section) {
+    const col = document.createElement('div');
+    col.className = 'col-md-6 col-lg-4';
+    
+    // Determine color based on bailable status
+    let bailableBadge = '';
+    let cardBorderClass = 'border-secondary';
+    
+    if (section.bailable === true) {
+        bailableBadge = '<span class="badge bg-success"><i class="fas fa-check-circle me-1"></i>Bailable</span>';
+        cardBorderClass = 'border-success';
+    } else if (section.bailable === false) {
+        bailableBadge = '<span class="badge bg-danger"><i class="fas fa-ban me-1"></i>Non-Bailable</span>';
+        cardBorderClass = 'border-danger';
+    }
+    
+    const categoryBadges = section.categories.slice(0, 2).map(cat => 
+        `<span class="badge bg-info" style="font-size: 10px;">${escapeHtml(cat)}</span>`
+    ).join(' ');
+    
+    col.innerHTML = `
+        <div class="card h-100 hover-shadow ${cardBorderClass}" style="cursor: pointer; transition: all 0.3s; border-width: 2px;" onclick='showSectionDetails(${JSON.stringify(section)})'>
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                    <h5 class="card-title mb-0 fw-bold text-primary">
+                        <i class="fas fa-gavel me-2"></i>${escapeHtml(section.section)}
+                    </h5>
+                    ${bailableBadge}
+                </div>
+                <h6 class="card-subtitle mb-3 text-muted">${escapeHtml(section.title)}</h6>
+                <p class="card-text small mb-3" style="min-height: 40px;">
+                    <strong><i class="fas fa-balance-scale me-1"></i>Penalty:</strong> ${escapeHtml(section.penalty)}
+                </p>
+                <div class="d-flex flex-wrap gap-1 mb-2">
+                    ${categoryBadges}
+                </div>
+                <div class="text-end">
+                    <small class="text-primary">
+                        <i class="fas fa-eye me-1"></i>View Details
+                    </small>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    return col;
+}
+
+function showSectionDetails(section) {
+    const modalBody = document.getElementById('sectionDetailsModalBody');
+    
+    let bailableBadge = '';
+    if (section.bailable === true) {
+        bailableBadge = '<span class="badge bg-success"><i class="fas fa-check-circle me-1"></i>Bailable</span>';
+    } else if (section.bailable === false) {
+        bailableBadge = '<span class="badge bg-danger"><i class="fas fa-ban me-1"></i>Non-Bailable</span>';
+    } else {
+        bailableBadge = '<span class="badge bg-secondary">Status Unknown</span>';
+    }
+    
+    const categoryBadges = section.categories.map(cat => 
+        `<span class="badge bg-info">${escapeHtml(cat)}</span>`
+    ).join(' ');
+    
+    modalBody.innerHTML = `
+        <div class="mb-4">
+            <h4 class="mb-2 text-primary">
+                <i class="fas fa-gavel me-2"></i>${escapeHtml(section.section)}
+            </h4>
+            <h5 class="mb-3">${escapeHtml(section.title)}</h5>
+            <div class="d-flex gap-2 mb-3">
+                ${bailableBadge}
+                ${section.crime_type ? `<span class="badge bg-warning text-dark">${escapeHtml(section.crime_type)}</span>` : ''}
+            </div>
+        </div>
+        
+        ${section.description ? `
+        <div class="mb-4">
+            <h6 class="fw-bold"><i class="fas fa-info-circle me-2"></i>Description:</h6>
+            <div class="border rounded p-3 bg-light">
+                ${escapeHtml(section.description)}
+            </div>
+        </div>
+        ` : ''}
+        
+        <div class="mb-4">
+            <h6 class="fw-bold"><i class="fas fa-balance-scale me-2"></i>Penalty:</h6>
+            <div class="alert alert-warning mb-0">
+                <strong>${escapeHtml(section.penalty)}</strong>
+            </div>
+        </div>
+        
+        <div class="mb-3">
+            <h6 class="fw-bold"><i class="fas fa-tag me-2"></i>Related Categories:</h6>
+            <div class="d-flex flex-wrap gap-2">
+                ${categoryBadges}
+            </div>
+        </div>
+        
+        <div class="alert alert-info mb-0">
+            <i class="fas fa-exclamation-circle me-2"></i>
+            <small><strong>Note:</strong> This information is for reference purposes only. Always verify with legal experts and updated legal texts.</small>
+        </div>
+    `;
+    
+    // Show modal
+    const modal = new bootstrap.Modal(document.getElementById('sectionDetailsModal'));
+    modal.show();
+}
+</script>
+
+</body>
+</html>

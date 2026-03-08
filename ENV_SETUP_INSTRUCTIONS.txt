@@ -1,0 +1,34 @@
+GOOGLE OAUTH SETUP INSTRUCTIONS
+================================
+
+The 400 error you're seeing is because Google OAuth is not configured. Here's how to fix it:
+
+1. Go to https://console.cloud.google.com/
+2. Create a new project or select existing one
+3. Enable Google+ API and Google OAuth2 API
+4. Go to "APIs & Services" > "Credentials"
+5. Create OAuth 2.0 Client ID
+6. In the OAuth consent screen, fill in required fields
+7. In the credentials configuration:
+   - **Authorized JavaScript origins**: Add `http://localhost:3000` (domain only, no path)
+   - **Authorized redirect URIs**: Add `http://localhost:3000/api/auth/callback/google` (full path)
+8. Copy the Client ID and Client Secret
+
+9. Create a file named .env.local in your project root with:
+
+NEXT_PUBLIC_GOOGLE_CLIENT_ID="your-actual-client-id-here"
+GOOGLE_CLIENT_SECRET="your-actual-client-secret-here"
+
+Example:
+NEXT_PUBLIC_GOOGLE_CLIENT_ID="123456789-abc123.apps.googleusercontent.com"
+GOOGLE_CLIENT_SECRET="GOCSPX-xyz789"
+
+10. Restart your development server: npm run dev
+
+ALTERNATIVE: Use email/password login instead of Google OAuth.
+
+The app will now show a warning message about Google OAuth not being configured, and you can use the traditional login form below it.
+
+NOTE: Make sure you're adding the URIs to the CORRECT fields:
+- JavaScript origins = domain only (http://localhost:3000)
+- Redirect URIs = full callback path (http://localhost:3000/api/auth/callback/google)
