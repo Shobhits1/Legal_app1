@@ -104,10 +104,13 @@ export function ReportsContent() {
 
   return (
     <div className="flex flex-col h-screen">
-      <header className="flex items-center gap-2 px-6 py-4 border-b border-border/40">
+      <header className="flex items-center gap-3 px-6 py-4 border-b border-border/40 glass-card">
         <SidebarTrigger />
         <div className="flex flex-col">
-          <h1 className="text-2xl font-bold">Reports & Analytics</h1>
+          <h1 className="text-xl font-bold flex items-center gap-2">
+            <BarChart3 className="h-5 w-5 text-primary" />
+            Reports & Analytics
+          </h1>
           <p className="text-sm text-muted-foreground">
             Comprehensive analytics and reporting for FIR processing and system usage
           </p>
@@ -124,63 +127,57 @@ export function ReportsContent() {
           <div className="max-w-7xl mx-auto space-y-6">
             {/* Key Metrics */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              <Card>
+              <Card className="glass-card border-border/40 rounded-2xl group">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">
-                    Total FIRs Processed
-                  </CardTitle>
-                  <FileText className="h-4 w-4 text-muted-foreground" />
+                  <CardTitle className="text-sm font-medium text-muted-foreground">Total FIRs Processed</CardTitle>
+                  <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center shadow-lg shadow-blue-500/20 transition-transform duration-300 group-hover:scale-110">
+                    <FileText className="h-4 w-4 text-white" />
+                  </div>
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">{reportsData?.totalFIRs.toLocaleString()}</div>
                   <p className="text-xs text-muted-foreground">
-                    <span className="text-green-600">+{reportsData?.growthRate}%</span> from last month
+                    <span className="text-emerald-400">+{reportsData?.growthRate}%</span> from last month
                   </p>
                 </CardContent>
               </Card>
 
-              <Card>
+              <Card className="glass-card border-border/40 rounded-2xl group">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">
-                    AI Accuracy Rate
-                  </CardTitle>
-                  <CheckCircle className="h-4 w-4 text-muted-foreground" />
+                  <CardTitle className="text-sm font-medium text-muted-foreground">AI Accuracy Rate</CardTitle>
+                  <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center shadow-lg shadow-emerald-500/20 transition-transform duration-300 group-hover:scale-110">
+                    <CheckCircle className="h-4 w-4 text-white" />
+                  </div>
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">{reportsData?.accuracyRate}%</div>
-                  <p className="text-xs text-muted-foreground">
-                    Based on AI recommendations
-                  </p>
+                  <p className="text-xs text-muted-foreground">Based on AI recommendations</p>
                 </CardContent>
               </Card>
 
-              <Card>
+              <Card className="glass-card border-border/40 rounded-2xl group">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">
-                    Avg. Processing Time
-                  </CardTitle>
-                  <Clock className="h-4 w-4 text-muted-foreground" />
+                  <CardTitle className="text-sm font-medium text-muted-foreground">Avg. Processing Time</CardTitle>
+                  <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center shadow-lg shadow-purple-500/20 transition-transform duration-300 group-hover:scale-110">
+                    <Clock className="h-4 w-4 text-white" />
+                  </div>
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">{reportsData?.avgProcessingTime} min</div>
-                  <p className="text-xs text-muted-foreground">
-                    From incident to FIR completion
-                  </p>
+                  <p className="text-xs text-muted-foreground">From incident to FIR completion</p>
                 </CardContent>
               </Card>
 
-              <Card>
+              <Card className="glass-card border-border/40 rounded-2xl group">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">
-                    Registered Officers
-                  </CardTitle>
-                  <Users className="h-4 w-4 text-muted-foreground" />
+                  <CardTitle className="text-sm font-medium text-muted-foreground">Registered Officers</CardTitle>
+                  <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center shadow-lg shadow-amber-500/20 transition-transform duration-300 group-hover:scale-110">
+                    <Users className="h-4 w-4 text-white" />
+                  </div>
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">{reportsData?.activeUsers}</div>
-                  <p className="text-xs text-muted-foreground">
-                    Active police officers
-                  </p>
+                  <p className="text-xs text-muted-foreground">Active police officers</p>
                 </CardContent>
               </Card>
             </div>
@@ -263,24 +260,22 @@ export function ReportsContent() {
                   <CardContent>
                     <div className="space-y-4">
                       {reportsData?.recentMilestones.map((milestone, index) => (
-                        <div key={index} className={`flex items-center gap-3 p-3 rounded-lg border ${milestone.type === 'achievement'
-                            ? 'bg-green-50 border-green-200'
-                            : 'bg-blue-50 border-blue-200'
+                        <div key={index} className={`flex items-center gap-3 p-3 rounded-xl border transition-all duration-200 ${milestone.type === 'achievement'
+                            ? 'bg-emerald-500/5 border-emerald-500/10 hover:bg-emerald-500/8'
+                            : 'bg-blue-500/5 border-blue-500/10 hover:bg-blue-500/8'
                           }`}>
                           {milestone.type === 'achievement' ? (
-                            <CheckCircle className="h-5 w-5 text-green-600" />
+                            <div className="h-8 w-8 rounded-lg bg-emerald-500/10 flex items-center justify-center shrink-0">
+                              <CheckCircle className="h-4 w-4 text-emerald-500" />
+                            </div>
                           ) : (
-                            <TrendingUp className="h-5 w-5 text-blue-600" />
+                            <div className="h-8 w-8 rounded-lg bg-blue-500/10 flex items-center justify-center shrink-0">
+                              <TrendingUp className="h-4 w-4 text-blue-500" />
+                            </div>
                           )}
                           <div className="flex-1">
-                            <p className={`text-sm font-medium ${milestone.type === 'achievement' ? 'text-green-800' : 'text-blue-800'
-                              }`}>
-                              {milestone.title}
-                            </p>
-                            <p className={`text-xs ${milestone.type === 'achievement' ? 'text-green-600' : 'text-blue-600'
-                              }`}>
-                              {milestone.description}
-                            </p>
+                            <p className="text-sm font-medium">{milestone.title}</p>
+                            <p className="text-xs text-muted-foreground">{milestone.description}</p>
                           </div>
                           <Badge variant="secondary">Active</Badge>
                         </div>
@@ -408,19 +403,19 @@ export function ReportsContent() {
                       <div className="space-y-3">
                         <div className="flex items-center justify-between">
                           <span className="text-sm">Database</span>
-                          <Badge variant="outline" className="bg-green-50 text-green-700">Online</Badge>
+                          <Badge variant="outline" className="bg-emerald-500/10 text-emerald-400 border-emerald-500/20">Online</Badge>
                         </div>
                         <div className="flex items-center justify-between">
                           <span className="text-sm">AI Service</span>
-                          <Badge variant="outline" className="bg-green-50 text-green-700">Active</Badge>
+                          <Badge variant="outline" className="bg-emerald-500/10 text-emerald-400 border-emerald-500/20">Active</Badge>
                         </div>
                         <div className="flex items-center justify-between">
                           <span className="text-sm">Voice Processing</span>
-                          <Badge variant="outline" className="bg-yellow-50 text-yellow-700">Limited</Badge>
+                          <Badge variant="outline" className="bg-amber-500/10 text-amber-400 border-amber-500/20">Limited</Badge>
                         </div>
                         <div className="flex items-center justify-between">
                           <span className="text-sm">Authentication</span>
-                          <Badge variant="outline" className="bg-green-50 text-green-700">Secure</Badge>
+                          <Badge variant="outline" className="bg-emerald-500/10 text-emerald-400 border-emerald-500/20">Secure</Badge>
                         </div>
                       </div>
                     </CardContent>
@@ -468,49 +463,35 @@ export function ReportsContent() {
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-4">
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div className="text-center p-4 bg-green-50 rounded-lg border border-green-200">
-                          <div className="text-2xl font-bold text-green-600">
-                            0
-                          </div>
-                          <p className="text-sm text-green-600">Critical Errors</p>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div className="text-center p-4 rounded-xl bg-emerald-500/5 border border-emerald-500/10">
+                          <div className="text-2xl font-bold text-emerald-400">0</div>
+                          <p className="text-sm text-emerald-400">Critical Errors</p>
                         </div>
-                        <div className="text-center p-4 bg-yellow-50 rounded-lg border border-yellow-200">
-                          <div className="text-2xl font-bold text-yellow-600">
-                            1
-                          </div>
-                          <p className="text-sm text-yellow-600">Minor Issues</p>
+                        <div className="text-center p-4 rounded-xl bg-amber-500/5 border border-amber-500/10">
+                          <div className="text-2xl font-bold text-amber-400">1</div>
+                          <p className="text-sm text-amber-400">Minor Issues</p>
                         </div>
-                        <div className="text-center p-4 bg-green-50 rounded-lg border border-green-200">
-                          <div className="text-2xl font-bold text-green-600">
-                            99%
-                          </div>
-                          <p className="text-sm text-green-600">
-                            System Health
-                          </p>
+                        <div className="text-center p-4 rounded-xl bg-emerald-500/5 border border-emerald-500/10">
+                          <div className="text-2xl font-bold text-emerald-400">99%</div>
+                          <p className="text-sm text-emerald-400">System Health</p>
                         </div>
                       </div>
 
                       <div className="space-y-2">
                         <h4 className="font-semibold">Current Status</h4>
                         <div className="space-y-2">
-                          <div className="flex items-center justify-between p-2 bg-yellow-50 rounded border border-yellow-200">
-                            <span className="text-sm">
-                              Voice processing requires Bhashini API setup
-                            </span>
+                          <div className="flex items-center justify-between p-3 rounded-xl bg-amber-500/5 border border-amber-500/10">
+                            <span className="text-sm">Voice processing requires Bhashini API setup</span>
                             <Badge variant="secondary">Info</Badge>
                           </div>
-                          <div className="flex items-center justify-between p-2 bg-green-50 rounded border border-green-200">
-                            <span className="text-sm">
-                              All core features operational
-                            </span>
-                            <Badge variant="outline">Good</Badge>
+                          <div className="flex items-center justify-between p-3 rounded-xl bg-emerald-500/5 border border-emerald-500/10">
+                            <span className="text-sm">All core features operational</span>
+                            <Badge variant="outline" className="bg-emerald-500/10 text-emerald-400 border-emerald-500/20">Good</Badge>
                           </div>
-                          <div className="flex items-center justify-between p-2 bg-green-50 rounded border border-green-200">
-                            <span className="text-sm">
-                              Database connection stable
-                            </span>
-                            <Badge variant="outline">Healthy</Badge>
+                          <div className="flex items-center justify-between p-3 rounded-xl bg-emerald-500/5 border border-emerald-500/10">
+                            <span className="text-sm">Database connection stable</span>
+                            <Badge variant="outline" className="bg-emerald-500/10 text-emerald-400 border-emerald-500/20">Healthy</Badge>
                           </div>
                         </div>
                       </div>

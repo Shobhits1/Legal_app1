@@ -5,11 +5,11 @@ import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import { GoogleSignInButton } from '@/components/google-signin-button'
 import { toast } from 'sonner'
 import Link from 'next/link'
+import { Shield, ArrowRight, Eye, EyeOff, User, BadgeCheck, MapPin, Award } from 'lucide-react'
 
 export default function SignUpPage() {
   const [formData, setFormData] = useState({
@@ -22,6 +22,7 @@ export default function SignUpPage() {
     station: '',
   })
   const [loading, setLoading] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
   const router = useRouter()
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -84,24 +85,36 @@ export default function SignUpPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
-      <Card className="w-full max-w-md">
-        <CardHeader>
-          <CardTitle>Create Account</CardTitle>
-          <CardDescription>
-            Create your police officer account to access the Legal AI system
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
+    <div className="min-h-screen flex items-center justify-center px-4 py-12 relative overflow-hidden">
+      {/* Background decorations */}
+      <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-background" />
+      <div className="absolute top-1/4 -left-32 w-96 h-96 bg-indigo-500/5 rounded-full blur-3xl" />
+      <div className="absolute bottom-1/4 -right-32 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl" />
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(99,102,241,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(99,102,241,0.02)_1px,transparent_1px)] bg-[size:60px_60px]" />
+
+      <div className="w-full max-w-lg relative animate-scale-in">
+        {/* Logo */}
+        <div className="text-center mb-8">
+          <Link href="/" className="inline-flex items-center gap-3 mb-4">
+            <div className="h-11 w-11 rounded-xl bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center shadow-lg shadow-indigo-500/25">
+              <Shield className="h-6 w-6 text-white" />
+            </div>
+            <span className="text-2xl font-bold tracking-tight">NyayaMitra</span>
+          </Link>
+          <p className="text-muted-foreground text-sm">Create your officer account to access the AI legal system</p>
+        </div>
+
+        {/* Card */}
+        <div className="glass-card rounded-2xl p-8 border border-border/50">
           {/* Google OAuth Button */}
           <GoogleSignInButton className="w-full" disabled={loading} />
 
-          <div className="relative">
+          <div className="relative my-6">
             <div className="absolute inset-0 flex items-center">
               <Separator className="w-full" />
             </div>
             <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-white px-2 text-muted-foreground">
+              <span className="bg-card px-3 text-muted-foreground font-medium">
                 Or create account manually
               </span>
             </div>
@@ -111,7 +124,10 @@ export default function SignUpPage() {
           <form onSubmit={handleSignUp} className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="name">Full Name *</Label>
+                <Label htmlFor="name" className="text-sm font-medium flex items-center gap-1.5">
+                  <User className="h-3.5 w-3.5 text-muted-foreground" />
+                  Full Name *
+                </Label>
                 <Input
                   id="name"
                   name="name"
@@ -121,10 +137,14 @@ export default function SignUpPage() {
                   required
                   disabled={loading}
                   placeholder="John Doe"
+                  className="h-11 bg-background/50 border-border/60 focus:border-primary/50 focus:ring-primary/20 transition-all"
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="badge">Badge Number *</Label>
+                <Label htmlFor="badge" className="text-sm font-medium flex items-center gap-1.5">
+                  <BadgeCheck className="h-3.5 w-3.5 text-muted-foreground" />
+                  Badge Number *
+                </Label>
                 <Input
                   id="badge"
                   name="badge"
@@ -134,12 +154,13 @@ export default function SignUpPage() {
                   required
                   disabled={loading}
                   placeholder="ABC123"
+                  className="h-11 bg-background/50 border-border/60 focus:border-primary/50 focus:ring-primary/20 transition-all font-mono"
                 />
               </div>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="email">Email *</Label>
+              <Label htmlFor="email" className="text-sm font-medium">Email *</Label>
               <Input
                 id="email"
                 name="email"
@@ -148,13 +169,17 @@ export default function SignUpPage() {
                 onChange={handleInputChange}
                 required
                 disabled={loading}
-                placeholder="officer@policestation.com"
+                placeholder="officer@policestation.gov.in"
+                className="h-11 bg-background/50 border-border/60 focus:border-primary/50 focus:ring-primary/20 transition-all"
               />
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="rank">Rank</Label>
+                <Label htmlFor="rank" className="text-sm font-medium flex items-center gap-1.5">
+                  <Award className="h-3.5 w-3.5 text-muted-foreground" />
+                  Rank
+                </Label>
                 <Input
                   id="rank"
                   name="rank"
@@ -163,10 +188,14 @@ export default function SignUpPage() {
                   onChange={handleInputChange}
                   disabled={loading}
                   placeholder="Constable"
+                  className="h-11 bg-background/50 border-border/60 focus:border-primary/50 focus:ring-primary/20 transition-all"
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="station">Station</Label>
+                <Label htmlFor="station" className="text-sm font-medium flex items-center gap-1.5">
+                  <MapPin className="h-3.5 w-3.5 text-muted-foreground" />
+                  Station
+                </Label>
                 <Input
                   id="station"
                   name="station"
@@ -175,26 +204,37 @@ export default function SignUpPage() {
                   onChange={handleInputChange}
                   disabled={loading}
                   placeholder="Main Station"
+                  className="h-11 bg-background/50 border-border/60 focus:border-primary/50 focus:ring-primary/20 transition-all"
                 />
               </div>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="password">Password *</Label>
-              <Input
-                id="password"
-                name="password"
-                type="password"
-                value={formData.password}
-                onChange={handleInputChange}
-                required
-                disabled={loading}
-                placeholder="Minimum 6 characters"
-              />
+              <Label htmlFor="password" className="text-sm font-medium">Password *</Label>
+              <div className="relative">
+                <Input
+                  id="password"
+                  name="password"
+                  type={showPassword ? 'text' : 'password'}
+                  value={formData.password}
+                  onChange={handleInputChange}
+                  required
+                  disabled={loading}
+                  placeholder="Minimum 6 characters"
+                  className="h-11 bg-background/50 border-border/60 focus:border-primary/50 focus:ring-primary/20 transition-all pr-10"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                </button>
+              </div>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="confirmPassword">Confirm Password *</Label>
+              <Label htmlFor="confirmPassword" className="text-sm font-medium">Confirm Password *</Label>
               <Input
                 id="confirmPassword"
                 name="confirmPassword"
@@ -204,26 +244,37 @@ export default function SignUpPage() {
                 required
                 disabled={loading}
                 placeholder="Re-enter password"
+                className="h-11 bg-background/50 border-border/60 focus:border-primary/50 focus:ring-primary/20 transition-all"
               />
             </div>
 
             <Button
               type="submit"
-              className="w-full"
+              className="w-full h-11 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white shadow-lg shadow-indigo-500/20 transition-all duration-300 hover:shadow-indigo-500/30 hover:-translate-y-0.5 font-medium mt-2"
               disabled={loading}
             >
-              {loading ? 'Creating Account...' : 'Create Account'}
+              {loading ? (
+                <div className="flex items-center gap-2">
+                  <div className="h-4 w-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  Creating Account...
+                </div>
+              ) : (
+                <div className="flex items-center gap-2">
+                  Create Account
+                  <ArrowRight className="h-4 w-4" />
+                </div>
+              )}
             </Button>
           </form>
 
-          <div className="text-center text-sm">
+          <div className="text-center text-sm mt-6 text-muted-foreground">
             Already have an account?{' '}
-            <Link href="/auth/signin" className="text-primary hover:underline">
+            <Link href="/auth/signin" className="text-primary hover:text-primary/80 font-medium transition-colors">
               Sign in here
             </Link>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </div>
   )
 }
