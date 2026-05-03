@@ -49,10 +49,12 @@ interface SearchResult {
   citation?: string;
   court?: string;
   date?: string;
+  incidentDate?: string;
   firNumber?: string;
   status?: string;
   priority?: string;
   location?: string;
+  isSuggestion?: boolean;
 }
 
 function HighlightText({ text, query }: { text: string; query: string }) {
@@ -125,6 +127,8 @@ export default function SearchPage() {
   const [favorites, setFavorites] = useState<Set<string>>(new Set());
   const [loadingFavorites, setLoadingFavorites] = useState(false);
   const [hasSearched, setHasSearched] = useState(false);
+  const [fallbackMode, setFallbackMode] = useState(false);
+  const [fallbackWidened, setFallbackWidened] = useState(false);
   const { toast } = useToast();
   const router = useRouter();
 
@@ -170,6 +174,8 @@ export default function SearchPage() {
       setResults(data.results || []);
       setCounts(data.counts || { sections: 0, caseLaws: 0, firs: 0, total: 0 });
       setSearchTimeMs(data.searchTimeMs || null);
+      setFallbackMode(data.fallback === true);
+      setFallbackWidened(data.fallbackWidened === true);
     } catch (error) {
       console.error('Search error:', error);
       toast({
@@ -179,6 +185,8 @@ export default function SearchPage() {
       });
       setResults([]);
       setCounts({ sections: 0, caseLaws: 0, firs: 0, total: 0 });
+      setFallbackMode(false);
+      setFallbackWidened(false);
     } finally {
       setIsSearching(false);
     }
@@ -196,16 +204,23 @@ export default function SearchPage() {
       setCounts({ sections: 0, caseLaws: 0, firs: 0, total: 0 });
       setSearchTimeMs(null);
       setHasSearched(false);
+      setFallbackMode(false);
+      setFallbackWidened(false);
     }
   }, [searchTerm, searchType, handleSearch]);
+
+  const resultTimestamp = (r: SearchResult) => {
+    const raw = r.date || r.incidentDate;
+    if (!raw) return 0;
+    const t = new Date(raw).getTime();
+    return Number.isNaN(t) ? 0 : t;
+  };
 
   const getSortedResults = () => {
     return [...results].sort((a, b) => {
       if (sortBy === "relevance") return (b.relevance || 0) - (a.relevance || 0);
       if (sortBy === "date") {
-        const dateA = a.date ? new Date(a.date).getTime() : 0;
-        const dateB = b.date ? new Date(b.date).getTime() : 0;
-        return dateB - dateA;
+        return resultTimestamp(b) - resultTimestamp(a);
       }
       return a.title.localeCompare(b.title);
     });
@@ -322,8 +337,14 @@ export default function SearchPage() {
     "Taxation Matter", "Corporate Law", "Service Matter",
   ];
 
+  // Labels align with case_laws.category values in the DB (search is case-insensitive).
   const crimeTypes = [
-    "theft", "dowry death", "murder", "assault", "cheating",
+    "Theft",
+    "Dowry Death",
+    "House Trespass",
+    "murder",
+    "assault",
+    "cheating",
   ];
 
   return (
@@ -480,7 +501,7 @@ export default function SearchPage() {
             <div className="flex items-center justify-between text-sm text-muted-foreground animate-fade-in-up">
               <div className="flex items-center gap-4">
                 <span className="font-semibold text-foreground text-base">
-                  {counts.total} results found
+                  {fallbackMode ? `${counts.total} suggestions` : `${counts.total} results found`}
                 </span>
                 {searchTimeMs !== null && (
                   <span className="flex items-center gap-1 text-xs bg-muted/60 px-2.5 py-1 rounded-full">
@@ -510,6 +531,19 @@ export default function SearchPage() {
                 )}
               </div>
             </div>
+          )}
+
+          {hasSearched && !isSearching && fallbackMode && sortedResults.length > 0 && (
+            <Card className="border-amber-500/30 bg-amber-500/5 dark:bg-amber-950/20">
+              <CardContent className="py-3 text-sm text-amber-900 dark:text-amber-100/90">
+                <p className="font-medium">
+                  No exact matches for &ldquo;{searchTerm}&rdquo;.
+                  {fallbackWidened
+                    ? " Showing popular items from all categories instead."
+                    : " Here are popular items you can explore."}
+                </p>
+              </CardContent>
+            </Card>
           )}
 
           {/* ── Search Results ── */}
@@ -542,6 +576,11 @@ export default function SearchPage() {
                           <Badge variant="outline" className="text-xs font-normal rounded-md">
                             {getTypeLabel(result.type)}
                           </Badge>
+                          {result.isSuggestion && (
+                            <Badge className="text-xs rounded-md bg-amber-600/90 hover:bg-amber-600 text-white border-0">
+                              Suggestion
+                            </Badge>
+                          )}
                           {result.category && result.category !== result.type && (
                             <Badge variant="secondary" className="text-xs rounded-md">
                               {result.category}

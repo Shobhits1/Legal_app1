@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/db'
 import { requireAuth } from '@/lib/auth'
+import { buildInsensitiveFieldOr, crimeExpandedSearchTerms } from '@/lib/crime-search-terms'
 import { z } from 'zod'
 
 const createCaseLawSchema = z.object({
@@ -44,14 +45,18 @@ export async function GET(request: NextRequest) {
       where.category = category
     }
 
-    if (search) {
-      where.OR = [
-        { title: { contains: search } },
-        { citation: { contains: search } },
-        { summary: { contains: search } },
-        { category: { contains: search } },
-        { court: { contains: search } },
-      ]
+    if (search && search.trim().length >= 2) {
+      const expanded = crimeExpandedSearchTerms(search.trim())
+      where.OR = buildInsensitiveFieldOr(expanded, [
+        'title',
+        'citation',
+        'summary',
+        'category',
+        'court',
+        'keyPoints',
+        'fullText',
+        'relevance',
+      ])
     }
 
     const orderBy: any = {}

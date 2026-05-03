@@ -42,19 +42,19 @@ import Link from "next/link";
 import { ThemeToggle } from "@/components/theme-toggle";
 
 const navigationItems = [
-  { title: "Dashboard", url: "/", icon: Home },
-  { title: "FIR Assistant", url: "/fir-assistant", icon: FileText },
-  { title: "Case Classifier", url: "/classifier", icon: Brain },
-  { title: "Case Laws", url: "/case-laws", icon: Scale },
-  { title: "Legal Sections", url: "/legal-sections", icon: BookOpen },
-  { title: "Voice Input", url: "/voice-input", icon: Mic },
+  { title: "Dashboard", url: "/", icon: Home, iconColor: "text-emerald-400", iconBg: "bg-emerald-500/10" },
+  { title: "FIR Assistant", url: "/fir-assistant", icon: FileText, iconColor: "text-blue-400", iconBg: "bg-blue-500/10" },
+  { title: "Case Classifier", url: "/classifier", icon: Brain, iconColor: "text-amber-400", iconBg: "bg-amber-500/10" },
+  { title: "Case Laws", url: "/case-laws", icon: Scale, iconColor: "text-purple-400", iconBg: "bg-purple-500/10" },
+  { title: "Legal Sections", url: "/legal-sections", icon: BookOpen, iconColor: "text-pink-400", iconBg: "bg-pink-500/10" },
+  { title: "Voice Input", url: "/voice-input", icon: Mic, iconColor: "text-indigo-400", iconBg: "bg-indigo-500/10" },
 ];
 
 const toolsItems = [
-  { title: "Search", url: "/search", icon: Search },
-  { title: "My Favorites", url: "/favorites", icon: Heart },
-  { title: "Reports", url: "/reports", icon: BarChart3 },
-  { title: "Settings", url: "/settings", icon: Settings },
+  { title: "Search", url: "/search", icon: Search, iconColor: "text-cyan-400", iconBg: "bg-cyan-500/10" },
+  { title: "My Favorites", url: "/favorites", icon: Heart, iconColor: "text-rose-400", iconBg: "bg-rose-500/10" },
+  { title: "Reports", url: "/reports", icon: BarChart3, iconColor: "text-violet-400", iconBg: "bg-violet-500/10" },
+  { title: "Settings", url: "/settings", icon: Settings, iconColor: "text-slate-400", iconBg: "bg-slate-500/10" },
 ];
 
 export function AppSidebar() {
@@ -143,7 +143,9 @@ export function AppSidebar() {
                         {active && (
                           <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-5 rounded-r-full bg-gradient-to-b from-indigo-500 to-purple-500" />
                         )}
-                        <item.icon className={`h-4 w-4 ${active ? 'text-primary' : ''}`} />
+                        <div className={`w-7 h-7 rounded-lg ${active ? item.iconBg : 'bg-transparent'} flex items-center justify-center transition-all duration-200`}>
+                          <item.icon className={`h-4 w-4 transition-colors duration-200 ${active ? item.iconColor : ''}`} />
+                        </div>
                         <span>{item.title}</span>
                       </Link>
                     </SidebarMenuButton>
@@ -177,7 +179,9 @@ export function AppSidebar() {
                         {active && (
                           <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-5 rounded-r-full bg-gradient-to-b from-indigo-500 to-purple-500" />
                         )}
-                        <item.icon className={`h-4 w-4 ${active ? 'text-primary' : ''}`} />
+                        <div className={`w-7 h-7 rounded-lg ${active ? item.iconBg : 'bg-transparent'} flex items-center justify-center transition-all duration-200`}>
+                          <item.icon className={`h-4 w-4 transition-colors duration-200 ${active ? item.iconColor : ''}`} />
+                        </div>
                         <span>{item.title}</span>
                       </Link>
                     </SidebarMenuButton>

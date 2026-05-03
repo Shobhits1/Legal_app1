@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/db'
 import { requireAuth } from '@/lib/auth'
+import { buildInsensitiveFieldOr, crimeExpandedSearchTerms } from '@/lib/crime-search-terms'
 import { z } from 'zod'
 
 const createSectionSchema = z.object({
@@ -40,13 +41,16 @@ export async function GET(request: NextRequest) {
       where.category = category
     }
     
-    if (search) {
-      where.OR = [
-        { section: { contains: search, mode: 'insensitive' } },
-        { title: { contains: search, mode: 'insensitive' } },
-        { description: { contains: search, mode: 'insensitive' } },
-        { category: { contains: search, mode: 'insensitive' } },
-      ]
+    if (search && search.trim().length >= 2) {
+      const expanded = crimeExpandedSearchTerms(search.trim())
+      where.OR = buildInsensitiveFieldOr(expanded, [
+        'section',
+        'title',
+        'description',
+        'category',
+        'act',
+        'punishment',
+      ])
     }
 
     const [sections, total] = await Promise.all([

@@ -152,7 +152,28 @@ export default function VoiceInput() {
             if (result.translated_text && result.translated_text !== result.original_text) setTranslatedText(result.translated_text);
             toast({ title: "Speech transcribed via Bhashini", description: "Analyzing incident details..." });
             const textToAnalyze = result.translated_text || result.original_text;
-            const analysis = await analyzeIncident(textToAnalyze);
+            
+            // Use ML service instead of Gemini
+            const response = await fetch('/api/firs/ml-analyze', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ incident_text: textToAnalyze }),
+            });
+            const rawData = await response.json();
+            const analysis = {
+              primarySections: rawData.primary_sections?.map((s: any) => ({
+                section: s.section, description: s.title, confidence: s.confidence || 85
+              })) || [],
+              secondarySections: rawData.secondary_sections?.map((s: any) => ({
+                section: s.section, description: s.title, confidence: 70
+              })) || [],
+              recommendations: [
+                `Predicted Category: ${rawData.predicted_category}`,
+                "Ensure evidence collection aligns with the suggested primary IPC sections"
+              ],
+              confidence: rawData.confidence ? Math.round(rawData.confidence * 100) : 85
+            };
+            
             setLegalResponse(JSON.stringify(analysis, null, 2));
             toast({ title: "Analysis complete", description: "Legal recommendations ready!" });
           } else {
@@ -174,7 +195,28 @@ export default function VoiceInput() {
       try {
         setLoading(true);
         toast({ title: "Speech transcribed", description: "Analyzing incident details..." });
-        const analysis = await analyzeIncident(text);
+        
+        // Use ML service instead of Gemini
+        const response = await fetch('/api/firs/ml-analyze', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ incident_text: text }),
+        });
+        const rawData = await response.json();
+        const analysis = {
+          primarySections: rawData.primary_sections?.map((s: any) => ({
+            section: s.section, description: s.title, confidence: s.confidence ? Math.round(s.confidence * 100) : 85
+          })) || [],
+          secondarySections: rawData.secondary_sections?.map((s: any) => ({
+            section: s.section, description: s.title, confidence: 70
+          })) || [],
+          recommendations: [
+            `Predicted Category: ${rawData.predicted_category}`,
+            "Ensure evidence collection aligns with the suggested primary IPC sections"
+          ],
+          confidence: rawData.confidence ? Math.round(rawData.confidence * 100) : 85
+        };
+        
         setLegalResponse(JSON.stringify(analysis, null, 2));
         toast({ title: "Analysis complete", description: "Legal recommendations ready!" });
       } catch (error) {

@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import Image from "next/image";
 import { ThemeToggle } from "@/components/theme-toggle";
 
 function AnimatedCounter({ target, suffix = "" }: { target: string; suffix?: string }) {
@@ -99,70 +100,100 @@ export function LandingPage() {
           <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl animate-gentle-pulse" />
           <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-gentle-pulse animation-delay-1000" />
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-pink-500/5 rounded-full blur-3xl animate-gentle-pulse animation-delay-2000" />
-          {/* Grid pattern */}
           <div className="absolute inset-0 bg-[linear-gradient(rgba(99,102,241,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(99,102,241,0.03)_1px,transparent_1px)] bg-[size:60px_60px]" />
         </div>
 
-        <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          {/* Badge */}
-          <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full border border-border/50 glass-card text-sm font-medium text-muted-foreground mb-8 ${mounted ? 'animate-slide-down' : 'opacity-0'}`}>
-            <Brain className="w-4 h-4 text-purple-400" />
-            <span>Powered by Legal-BERT · AI For Law Enforcement</span>
-            <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-          </div>
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            {/* Left — Text */}
+            <div className="text-center lg:text-left">
+              <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full border border-border/50 glass-card text-sm font-medium text-muted-foreground mb-8 ${mounted ? 'animate-slide-down' : 'opacity-0'}`}>
+                <Brain className="w-4 h-4 text-purple-400" />
+                <span>Powered by Legal-BERT · AI For Law Enforcement</span>
+                <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+              </div>
 
-          {/* Headline */}
-          <h1 className={`text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.1] mb-6 ${mounted ? 'animate-slide-up' : 'opacity-0'}`}>
-            <span className="gradient-text-primary">NyayaMitra</span>
-            <br />
-            <span className="text-foreground text-3xl sm:text-4xl lg:text-5xl font-bold">
-              AI Digital Assistant for
-            </span>
-            <br />
-            <span className="text-foreground text-3xl sm:text-4xl lg:text-5xl font-bold">
-              Police Stations
-            </span>
-          </h1>
+              <h1 className={`text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.1] mb-6 ${mounted ? 'animate-slide-up' : 'opacity-0'}`}>
+                <span className="gradient-text-primary">NyayaMitra</span>
+                <br />
+                <span className="text-foreground text-3xl sm:text-4xl lg:text-5xl font-bold">
+                  AI Digital Assistant for
+                </span>
+                <br />
+                <span className="text-foreground text-3xl sm:text-4xl lg:text-5xl font-bold">
+                  Police Stations
+                </span>
+              </h1>
 
-          {/* Subtitle */}
-          <p className={`text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed mb-10 ${mounted ? 'animate-slide-up animation-delay-200' : 'opacity-0'}`}>
-            Empowering Investigating Officers to draft flawless FIRs. Speak or write the incident, 
-            and get instant, accurate IPC sections and landmark Supreme Court judgments.
-          </p>
+              <p className={`text-lg sm:text-xl text-muted-foreground max-w-xl leading-relaxed mb-10 ${mounted ? 'animate-slide-up animation-delay-200' : 'opacity-0'}`}>
+                Empowering Investigating Officers to draft flawless FIRs. Speak or write the incident, 
+                and get instant, accurate IPC sections and landmark Supreme Court judgments.
+              </p>
 
-          {/* CTAs */}
-          <div className={`flex flex-col sm:flex-row gap-4 justify-center items-center mb-14 ${mounted ? 'animate-slide-up animation-delay-300' : 'opacity-0'}`}>
-            <Link href="/auth/signup">
-              <Button size="lg" className="h-13 px-8 text-base bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white shadow-xl shadow-indigo-500/25 transition-all duration-300 hover:shadow-indigo-500/40 hover:-translate-y-1 group">
-                Officer Registration
-                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </Button>
-            </Link>
-            <Link href="/auth/signin">
-              <Button size="lg" variant="outline" className="h-13 px-8 text-base border-border/60 hover:bg-accent/50 transition-all duration-300 hover:-translate-y-0.5">
-                Station Login
-                <ChevronRight className="ml-1 h-4 w-4" />
-              </Button>
-            </Link>
-          </div>
+              <div className={`flex flex-col sm:flex-row gap-4 justify-center lg:justify-start items-center mb-10 ${mounted ? 'animate-slide-up animation-delay-300' : 'opacity-0'}`}>
+                <Link href="/auth/signup">
+                  <Button size="lg" className="h-13 px-8 text-base bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white shadow-xl shadow-indigo-500/25 transition-all duration-300 hover:shadow-indigo-500/40 hover:-translate-y-1 group">
+                    Officer Registration
+                    <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </Button>
+                </Link>
+                <Link href="/auth/signin">
+                  <Button size="lg" variant="outline" className="h-13 px-8 text-base border-border/60 hover:bg-accent/50 transition-all duration-300 hover:-translate-y-0.5">
+                    Station Login
+                    <ChevronRight className="ml-1 h-4 w-4" />
+                  </Button>
+                </Link>
+              </div>
 
-          {/* Trust Indicators */}
-          <div className={`flex flex-wrap items-center justify-center gap-6 text-sm text-muted-foreground ${mounted ? 'animate-fade-in animation-delay-500' : 'opacity-0'}`}>
-            <div className="flex items-center gap-2">
-              <CheckCircle className="w-4 h-4 text-emerald-500" />
-              <span>Zero Section Errors</span>
+              <div className={`flex flex-wrap items-center justify-center lg:justify-start gap-6 text-sm text-muted-foreground ${mounted ? 'animate-fade-in animation-delay-500' : 'opacity-0'}`}>
+                <div className="flex items-center gap-2">
+                  <CheckCircle className="w-4 h-4 text-emerald-500" />
+                  <span>Zero Section Errors</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircle className="w-4 h-4 text-emerald-500" />
+                  <span>Voice & Text Input</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircle className="w-4 h-4 text-emerald-500" />
+                  <span>Valid PDF Export</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircle className="w-4 h-4 text-emerald-500" />
+                  <span>21K+ Case Laws</span>
+                </div>
+              </div>
             </div>
-            <div className="flex items-center gap-2">
-              <CheckCircle className="w-4 h-4 text-emerald-500" />
-              <span>Voice & Text Input</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <CheckCircle className="w-4 h-4 text-emerald-500" />
-              <span>Valid PDF Export</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <CheckCircle className="w-4 h-4 text-emerald-500" />
-              <span>21K+ Case Laws</span>
+
+            {/* Right — Police Officer Hero Image */}
+            <div className={`relative hidden lg:flex justify-center items-center ${mounted ? 'animate-fade-in animation-delay-300' : 'opacity-0'}`}>
+              <div className="relative">
+                {/* Glow effect behind image */}
+                <div className="absolute -inset-4 bg-gradient-to-br from-indigo-500/20 via-purple-500/20 to-pink-500/20 rounded-3xl blur-2xl" />
+                <div className="relative rounded-2xl overflow-hidden border border-border/30 shadow-2xl shadow-indigo-500/10" style={{ animation: 'float 6s ease-in-out infinite' }}>
+                  <Image
+                    src="/images/police-hero.jpg"
+                    alt="AI-powered police officer using NyayaMitra"
+                    width={520}
+                    height={400}
+                    className="object-cover"
+                    priority
+                  />
+                  {/* Gradient overlay at bottom */}
+                  <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-background/80 to-transparent" />
+                  <div className="absolute bottom-4 left-4 right-4">
+                    <div className="glass-card rounded-xl px-4 py-3 flex items-center gap-3">
+                      <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center">
+                        <CheckCircle className="h-4 w-4 text-white" />
+                      </div>
+                      <div>
+                        <p className="text-xs font-semibold">AI Analysis Active</p>
+                        <p className="text-[10px] text-muted-foreground">Legal-BERT processing incident data</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -231,16 +262,37 @@ export function LandingPage() {
             ].map((feature, i) => (
               <div
                 key={i}
-                className="group relative glass-card glass-card-hover rounded-2xl p-6 overflow-hidden"
+                className="group relative glass-card rounded-2xl p-7 overflow-hidden transition-all duration-500 hover:border-border/60 hover:-translate-y-2 hover:shadow-2xl"
               >
                 {/* Gradient glow on hover */}
-                <div className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-[0.03] transition-opacity duration-500 rounded-2xl`} />
+                <div className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-[0.04] transition-opacity duration-500 rounded-2xl`} />
                 
-                <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${feature.gradient} flex items-center justify-center mb-4 shadow-lg ${feature.shadowColor} transition-transform duration-300 group-hover:scale-110`}>
-                  <feature.icon className="h-6 w-6 text-white" />
+                {/* Accent line at bottom */}
+                <div className={`absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r ${feature.gradient} opacity-0 group-hover:opacity-100 transition-all duration-500`} />
+
+                {/* Sparkle dot */}
+                <div className={`absolute top-4 right-4 w-2 h-2 rounded-full bg-gradient-to-r ${feature.gradient} opacity-0 group-hover:opacity-60 transition-all duration-500 group-hover:animate-pulse`} />
+
+                {/* 3D Dribbble-style Icon */}
+                <div className="relative mb-5">
+                  {/* Outer glow ring */}
+                  <div className={`absolute -inset-2 rounded-2xl bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-15 blur-xl transition-all duration-500`} />
+                  {/* Icon container with 3D depth */}
+                  <div className={`relative w-14 h-14 rounded-2xl bg-gradient-to-br ${feature.gradient} flex items-center justify-center shadow-lg ${feature.shadowColor} transition-all duration-500 group-hover:scale-110 group-hover:rotate-3 group-hover:shadow-xl`}>
+                    {/* Inner highlight for 3D effect */}
+                    <div className="absolute inset-[1px] rounded-[14px] bg-gradient-to-br from-white/20 via-transparent to-transparent" />
+                    <feature.icon className="h-6 w-6 text-white relative z-10 transition-transform duration-300 group-hover:scale-110" />
+                  </div>
                 </div>
-                <h3 className="text-lg font-semibold mb-2">{feature.title}</h3>
-                <p className="text-muted-foreground text-sm leading-relaxed">{feature.description}</p>
+
+                <h3 className="text-lg font-semibold mb-2 transition-colors duration-300 group-hover:text-foreground">{feature.title}</h3>
+                <p className="text-muted-foreground text-sm leading-relaxed mb-4">{feature.description}</p>
+                
+                {/* Hover arrow */}
+                <div className="flex items-center gap-1.5 text-xs font-medium opacity-0 group-hover:opacity-60 transition-all duration-500 translate-y-2 group-hover:translate-y-0">
+                  <span className="text-muted-foreground">Learn more</span>
+                  <ArrowRight className="h-3 w-3 text-muted-foreground transition-transform group-hover:translate-x-0.5" />
+                </div>
               </div>
             ))}
           </div>
@@ -273,8 +325,8 @@ export function LandingPage() {
                 description: "Type or dictate the complainant's account of the incident using voice-to-text in your preferred language.",
                 icon: Mic,
                 color: "text-indigo-400",
-                borderColor: "border-indigo-500/30",
-                bgColor: "bg-indigo-500/10",
+                gradient: "from-indigo-500 to-blue-500",
+                shadowColor: "shadow-indigo-500/25",
               },
               {
                 step: "02",
@@ -282,8 +334,8 @@ export function LandingPage() {
                 description: "Legal-BERT classifies the crime category and identifies applicable IPC/BNS sections with confidence scores.",
                 icon: Brain,
                 color: "text-purple-400",
-                borderColor: "border-purple-500/30",
-                bgColor: "bg-purple-500/10",
+                gradient: "from-purple-500 to-pink-500",
+                shadowColor: "shadow-purple-500/25",
               },
               {
                 step: "03",
@@ -291,21 +343,79 @@ export function LandingPage() {
                 description: "Review the AI-suggested sections, relevant case laws, and download a complete, legally valid FIR as PDF.",
                 icon: FileText,
                 color: "text-pink-400",
-                borderColor: "border-pink-500/30",
-                bgColor: "bg-pink-500/10",
+                gradient: "from-pink-500 to-rose-500",
+                shadowColor: "shadow-pink-500/25",
               },
             ].map((step, i) => (
-              <div key={i} className="relative text-center">
-                <div className={`w-14 h-14 mx-auto rounded-2xl ${step.bgColor} border ${step.borderColor} flex items-center justify-center mb-6 transition-transform duration-300 hover:scale-110`}>
-                  <step.icon className={`h-6 w-6 ${step.color}`} />
+              <div key={i} className="relative text-center group">
+                {/* 3D icon with glow */}
+                <div className="relative mx-auto w-16 h-16 mb-6">
+                  <div className={`absolute -inset-2 rounded-2xl bg-gradient-to-br ${step.gradient} opacity-0 group-hover:opacity-20 blur-lg transition-all duration-500`} />
+                  <div className={`relative w-16 h-16 rounded-2xl bg-gradient-to-br ${step.gradient} flex items-center justify-center shadow-lg ${step.shadowColor} transition-all duration-500 group-hover:scale-110 group-hover:-rotate-6 group-hover:shadow-xl`}>
+                    <div className="absolute inset-[1px] rounded-[14px] bg-gradient-to-br from-white/25 via-transparent to-transparent" />
+                    <step.icon className="h-7 w-7 text-white relative z-10" />
+                  </div>
+                  {/* Step badge */}
+                  <div className={`absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-background border-2 border-border flex items-center justify-center text-[10px] font-bold ${step.color}`}>
+                    {step.step}
+                  </div>
                 </div>
-                <div className={`inline-block font-mono text-xs font-bold ${step.color} mb-2`}>
-                  STEP {step.step}
+                <div className={`inline-block font-mono text-xs font-bold ${step.color} mb-2 uppercase tracking-wider`}>
+                  Step {step.step}
                 </div>
                 <h3 className="text-lg font-semibold mb-2">{step.title}</h3>
                 <p className="text-muted-foreground text-sm leading-relaxed">{step.description}</p>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ─── Police Team Showcase ─────────────────────────────── */}
+      <section className="py-24 relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            {/* Image */}
+            <div className="relative rounded-2xl overflow-hidden border border-border/30 shadow-2xl shadow-indigo-500/10 group">
+              <Image
+                src="/images/police-team.png"
+                alt="Police officers collaborating with NyayaMitra AI system"
+                width={640}
+                height={400}
+                className="object-cover w-full transition-transform duration-700 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent" />
+            </div>
+
+            {/* Text */}
+            <div className="space-y-6">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider text-purple-400 border border-purple-500/20 bg-purple-500/5">
+                <Globe className="w-3.5 h-3.5" />
+                Built for Indian Police
+              </div>
+              <h2 className="text-3xl sm:text-4xl font-bold">
+                Modernizing Law Enforcement
+              </h2>
+              <p className="text-muted-foreground text-lg leading-relaxed">
+                NyayaMitra bridges the gap between legal complexity and on-ground policing. 
+                Our AI assistant ensures every officer, regardless of legal training, can file 
+                precise FIRs with the correct IPC/BNS sections and supporting case laws.
+              </p>
+              <div className="grid grid-cols-2 gap-4">
+                {[
+                  { icon: Shield, label: "Secure & Encrypted", desc: "End-to-end data protection" },
+                  { icon: Globe, label: "Multi-Language", desc: "Hindi, English & 8 more" },
+                  { icon: Brain, label: "Legal-BERT AI", desc: "110M parameter model" },
+                  { icon: BarChart3, label: "Real Analytics", desc: "Track station performance" },
+                ].map((item, i) => (
+                  <div key={i} className="glass-card rounded-xl p-4 group/card hover:border-primary/20 transition-all duration-300">
+                    <item.icon className="h-5 w-5 text-primary mb-2 transition-transform duration-300 group-hover/card:scale-110" />
+                    <p className="text-sm font-semibold">{item.label}</p>
+                    <p className="text-xs text-muted-foreground">{item.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -351,8 +461,15 @@ export function LandingPage() {
             <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 via-transparent to-purple-500/5" />
             
             <div className="relative">
-              <div className="w-14 h-14 mx-auto rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center mb-6 shadow-lg shadow-indigo-500/25">
-                <Lock className="h-7 w-7 text-white" />
+              {/* Officer Avatar */}
+              <div className="w-24 h-24 mx-auto mb-6 rounded-full overflow-hidden border-2 border-indigo-500/30 shadow-xl shadow-indigo-500/20" style={{ animation: 'float 4s ease-in-out infinite' }}>
+                <Image
+                  src="/images/police-avatar.png"
+                  alt="Police officer avatar"
+                  width={96}
+                  height={96}
+                  className="object-cover w-full h-full"
+                />
               </div>
 
               <h2 className="text-3xl sm:text-4xl font-bold mb-4">
@@ -418,6 +535,8 @@ export function LandingPage() {
           </div>
         </div>
       </footer>
+
+
     </div>
   );
 }

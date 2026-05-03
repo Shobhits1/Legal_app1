@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/db'
 import { requireAuth } from '@/lib/auth'
 import { analyzeIncident } from '@/lib/ai'
+import { buildInsensitiveFieldOr } from '@/lib/crime-search-terms'
 import { z } from 'zod'
 
 const createFIRSchema = z.object({
@@ -30,26 +31,35 @@ export async function GET(request: NextRequest) {
     const skip = (page - 1) * limit
 
     const where: any = {}
-    
+
     if (status) {
       where.status = status
     }
-    
-    if (search) {
-      where.OR = [
-        { title: { contains: search, mode: 'insensitive' } },
-        { firNumber: { contains: search, mode: 'insensitive' } },
-        { complainant: { contains: search, mode: 'insensitive' } },
-        { location: { contains: search, mode: 'insensitive' } },
-      ]
+
+    const andConditions: any[] = []
+
+    if (search && search.trim().length >= 1) {
+      andConditions.push({
+        OR: buildInsensitiveFieldOr([search.trim()], [
+          'title',
+          'firNumber',
+          'description',
+          'complainant',
+          'location',
+          'accused',
+        ]),
+      })
     }
 
     // Officers can only see their own FIRs, admins can see all
     if (user.role !== 'ADMIN') {
-      where.OR = [
-        { createdBy: user.id },
-        { assignedTo: user.id },
-      ]
+      andConditions.push({
+        OR: [{ createdBy: user.id }, { assignedTo: user.id }],
+      })
+    }
+
+    if (andConditions.length > 0) {
+      where.AND = andConditions
     }
 
     const [firs, total] = await Promise.all([
